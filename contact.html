@@ -6,6 +6,9 @@
   <title>Contact Us | Supported Accommodation Providers Consultancy</title>
   <meta name="description" content="Get in touch with SAPC for expert supported accommodation compliance consultancy across England. We respond within 24 hours."/>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="preconnect" href="https://unpkg.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
   <link rel="stylesheet" href="sap.css"/>
@@ -14,7 +17,8 @@
     input, select, textarea { font-family: 'Manrope', sans-serif; outline: none; }
     input:focus, select:focus, textarea:focus { border-color: #0a94b2 !important; }
   </style>
-</head>
+  <link rel="preload" as="image" href="img15.webp" fetchpriority="high"/>
+  </head>
 <body style="font-family:'Manrope',sans-serif;color:#111827;background:#fff;">
 
 <div id="shared-navbar"></div>
@@ -28,7 +32,7 @@
       <p style="font:400 15px/1.65 'Manrope',sans-serif;color:rgba(255,255,255,0.75);">SAPC is dedicated to helping providers achieve excellence in supported living and accommodation standards across England.</p>
     </div>
     <div style="border-radius:14px;overflow:hidden;height:280px;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-      <img src="img15.jpg" alt="SAPC consultancy team" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#00627a';this.removeAttribute('src');"/>
+      <img fetchpriority="high" src="img15.webp" alt="SAPC consultancy team" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#00627a';this.removeAttribute('src');"/>
     </div>
   </div>
 </section>
