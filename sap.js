@@ -418,7 +418,8 @@ function renderSharedFooter() {
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px;">
               <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">mail</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">support@sapconsultancy.co.uk</span></li>
               <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">language</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">www.sapconsultancy.co.uk</span></li>
-              <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">location_on</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">England — Nationwide</span></li>
+              <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">phone</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">+44 7542 178712</span></li>
+              <li style="display:flex;align-items:flex-start;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;margin-top:2px;">location_on</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">Suite B, Sapphire House,<br>Roundtree Way, Norwich, NR7 8SQ</span></li>
             </ul>
           </div>
         </div>
