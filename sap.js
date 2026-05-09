@@ -252,7 +252,7 @@ function renderSharedNavbar() {
     </style>
 
     <header style="position:sticky;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);border-bottom:1px solid #f1f5f9;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-      <nav class="sapc-navbar" style="display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 32px;height:72px;">
+      <nav class="sapc-navbar" style="display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 48px;height:72px;">
 
         <a href="index.html" style="flex-shrink:0;line-height:0;">
           <img src="logo@2x.png" alt="SAPC" style="height:32px;width:auto;">
@@ -418,7 +418,7 @@ function renderSharedFooter() {
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px;">
               <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">mail</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">support@sapconsultancy.co.uk</span></li>
               <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">language</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">www.sapconsultancy.co.uk</span></li>
-              <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">phone</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">+44 7542 178712</span></li>
+              <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">phone</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">+44 7833 905183</span></li>
               <li style="display:flex;align-items:flex-start;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;margin-top:2px;">location_on</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">Suite B, Sapphire House,<br>Roundtree Way, Norwich, NR7 8SQ</span></li>
             </ul>
           </div>
@@ -502,6 +502,102 @@ function initAOS() {
 // ==============================
 // BOOT
 // ==============================
+
+// ── JSON-LD SCHEMA MARKUP ──────────────────────────────────────────────────
+(function injectSchema() {
+  const page = window.location.pathname.split('/').pop() || 'index.html';
+
+  // Organisation schema on every page
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Supported Accommodation Providers Consultancy",
+    "alternateName": "SAPC",
+    "url": "https://www.sapconsultancy.co.uk",
+    "logo": "https://www.sapconsultancy.co.uk/logo.svg",
+    "description": "Expert Ofsted compliance consultancy for supported accommodation providers across England. Registration support, mock inspections, monthly monitoring and more.",
+    "telephone": "+44 7833 905183",
+    "email": "support@sapconsultancy.co.uk",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Suite B, Sapphire House, Roundtree Way",
+      "addressLocality": "Norwich",
+      "postalCode": "NR7 8SQ",
+      "addressCountry": "GB"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "United Kingdom"
+    },
+    "sameAs": [],
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "09:00",
+      "closes": "17:30"
+    }
+  };
+
+  // Service schemas per page
+  const serviceSchemas = {
+    'mock-inspections.html': { name: 'Ofsted Mock Inspections', desc: 'Rigorous Ofsted mock inspections for supported accommodation providers with detailed action plans and Reg 32 reports.' },
+    'registration-support.html': { name: 'Ofsted Registration Support', desc: 'Expert support navigating the Ofsted registration process for supported accommodation providers under SA Regulations 2023.' },
+    'post-inspection.html': { name: 'Post-Ofsted Inspection Support', desc: 'Strategic support for supported accommodation providers following an Ofsted inspection, focused on achieving Outcome 1.' },
+    'monthly-monitoring.html': { name: 'Monthly Monitoring Visits', desc: 'Regular compliance monitoring visits to keep supported accommodation providers inspection-ready year-round.' },
+    'case-file-audits.html': { name: 'Case File Audits', desc: 'Professional case file audits ensuring documentation meets Ofsted SA Regulations 2023 standards.' },
+    'location-risk-assessments.html': { name: 'Location Risk Assessments', desc: 'Expert property suitability assessments required for Ofsted supported accommodation registration.' },
+    'risk-assessment-support-plans.html': { name: 'Risk Assessment & Support Plan Reviews', desc: 'Robust, Ofsted-compliant risk assessments and support plans for young people aged 16-17.' },
+    'coaching-mentoring.html': { name: 'Coaching & Mentoring', desc: 'Leadership coaching and mentoring for supported accommodation Registered Managers and senior staff.' },
+    'professional-supervision.html': { name: 'Professional Supervision', desc: 'Structured professional supervision for supported accommodation staff as required under SA Regulations 2023.' },
+    'recording-templates.html': { name: 'Recording Templates Development', desc: 'Bespoke Ofsted-compliant recording templates built for supported accommodation providers.' },
+  };
+
+  function addSchema(obj) {
+    const s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.text = JSON.stringify(obj);
+    document.head.appendChild(s);
+  }
+
+  addSchema(orgSchema);
+
+  if (serviceSchemas[page]) {
+    addSchema({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": serviceSchemas[page].name,
+      "description": serviceSchemas[page].desc,
+      "provider": { "@type": "Organization", "name": "SAPC — Supported Accommodation Providers Consultancy" },
+      "areaServed": { "@type": "Country", "name": "United Kingdom" },
+      "serviceType": "Ofsted Compliance Consultancy"
+    });
+  }
+
+  // Breadcrumb schema
+  const breadcrumbMap = {
+    'index.html': [{ name: 'Home', url: '/' }],
+    'about-us.html': [{ name: 'Home', url: '/' }, { name: 'About Us', url: '/about-us.html' }],
+    'our-approach.html': [{ name: 'Home', url: '/' }, { name: 'Our Approach', url: '/our-approach.html' }],
+    'contact.html': [{ name: 'Home', url: '/' }, { name: 'Contact', url: '/contact.html' }],
+    'ofsted-updates.html': [{ name: 'Home', url: '/' }, { name: 'Ofsted Updates', url: '/ofsted-updates.html' }],
+  };
+  if (serviceSchemas[page]) {
+    breadcrumbMap[page] = [{ name: 'Home', url: '/' }, { name: 'Services', url: '/index.html#services' }, { name: serviceSchemas[page].name, url: '/' + page }];
+  }
+  if (breadcrumbMap[page]) {
+    addSchema({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbMap[page].map((item, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "name": item.name,
+        "item": "https://www.sapconsultancy.co.uk" + item.url
+      }))
+    });
+  }
+})();
+
 window.addEventListener('load', () => {
   renderSharedNavbar();
   renderSharedFooter();
