@@ -1,0 +1,15 @@
+Options -MultiViews
+RewriteEngine On
+
+# Redirect /index and /index.html to root
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/index(\.html)?\s
+RewriteRule ^index(\.html)?$ / [R=301,L]
+
+# Remove .html extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+# Redirect .html URLs to clean URLs (301 permanent)
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R=301]

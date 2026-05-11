@@ -11,6 +11,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
 (function injectResponsiveCSS() {
   const style = document.createElement('style');
   style.textContent = `
+    html { scrollbar-gutter: stable; }
     .sapc-hamburger { display:none; }
     .sapc-book-cta  { display:inline-flex; }
 
@@ -270,8 +271,8 @@ function renderSharedNavbar() {
             </button>
             <div class="sapc-dd-menu" id="sapc-dd-menu" role="menu">
               <a href="mock-inspections.html">Ofsted Mock Inspections</a>
-              <a href="registration-support.html">Registration Support</a>
-              <a href="post-inspection.html">Post-Inspection Support</a>
+              <a href="registration-support.html">Ofsted Registration Support</a>
+              <a href="post-inspection.html">Post-Ofsted Inspection Support</a>
               <a href="monthly-monitoring.html">Monthly Monitoring Visits</a>
               <a href="case-file-audits.html">Case File Audits</a>
               <div class="dd-divider"></div>
@@ -307,8 +308,8 @@ function renderSharedNavbar() {
           <a href="about-us.html">About Us</a>
           <span class="sapc-mob-label">Services</span>
           <a href="mock-inspections.html" class="sapc-mob-service">Ofsted Mock Inspections</a>
-          <a href="registration-support.html" class="sapc-mob-service">Registration Support</a>
-          <a href="post-inspection.html" class="sapc-mob-service">Post-Inspection Support</a>
+          <a href="registration-support.html" class="sapc-mob-service">Ofsted Registration Support</a>
+          <a href="post-inspection.html" class="sapc-mob-service">Post-Ofsted Inspection Support</a>
           <a href="monthly-monitoring.html" class="sapc-mob-service">Monthly Monitoring Visits</a>
           <a href="case-file-audits.html" class="sapc-mob-service">Case File Audits</a>
           <a href="location-risk-assessments.html" class="sapc-mob-service">Location Risk Assessments</a>
@@ -398,10 +399,15 @@ function renderSharedFooter() {
             <h4 style="font:700 11px/1 'Manrope',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#fff;margin:0 0 20px;">Our Services</h4>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
               <li><a href="mock-inspections.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Mock Inspections</a></li>
-              <li><a href="registration-support.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Registration Support</a></li>
-              <li><a href="post-inspection.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Post-Inspection Support</a></li>
+              <li><a href="registration-support.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Ofsted Registration Support</a></li>
+              <li><a href="post-inspection.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Post-Ofsted Inspection Support</a></li>
               <li><a href="monthly-monitoring.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Monthly Monitoring</a></li>
               <li><a href="case-file-audits.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Case File Audits</a></li>
+              <li><a href="location-risk-assessments.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Location Risk Assessments</a></li>
+              <li><a href="risk-assessment-support-plans.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Risk Assessment &amp; Support Plans</a></li>
+              <li><a href="coaching-mentoring.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Coaching &amp; Mentoring</a></li>
+              <li><a href="professional-supervision.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Professional Supervision</a></li>
+              <li><a href="recording-templates.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Recording Templates</a></li>
             </ul>
           </div>
           <div>
