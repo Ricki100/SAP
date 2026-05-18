@@ -207,6 +207,10 @@ $$('.btn').forEach(button => {
 // ==============================
 const SAPC_CONFIG = { spacingScale:1, animationSpeed:1, enableAnimations:true };
 
+// Contact form — Web3Forms (https://web3forms.com). Free tier: sign up, add your site domain,
+// choose the inbox email, then paste the Access Key here (one line).
+const SAPC_WEB3FORMS_ACCESS_KEY = '3f6f8ffc-83e9-4b15-8035-3ef81319a4e0';
+
 // ==============================
 // SHARED NAVBAR
 // ==============================
@@ -256,7 +260,7 @@ function renderSharedNavbar() {
       <nav class="sapc-navbar" style="display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 48px;height:72px;">
 
         <a href="index.html" style="flex-shrink:0;line-height:0;">
-          <img src="logo@2x.png" alt="SAPC" style="height:32px;width:auto;">
+          <img src="logo@2x.png" alt="Supported Accommodation Providers Consultancy" style="height:32px;width:auto;">
         </a>
 
         <!-- Desktop links -->
@@ -391,7 +395,7 @@ function renderSharedFooter() {
         <div class="sapc-footer-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:48px;margin-bottom:48px;">
           <div>
             <a href="index.html" style="display:inline-block;margin-bottom:20px;line-height:0;">
-              <img src="logo@2x.png" alt="SAPC" style="height:36px;width:auto;">
+              <img src="logo@2x.png" alt="Supported Accommodation Providers Consultancy" style="height:36px;width:auto;">
             </a>
             <p style="font:400 13px/1.7 'Manrope',sans-serif;color:#94a3b8;margin:0;">Empowering providers with precision consultancy and specialised compliance strategies for the supported accommodation sector across England.</p>
           </div>
@@ -506,6 +510,152 @@ function initAOS() {
 }
 
 // ==============================
+// CONTACT FORM
+// ==============================
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+
+  const submitButton = document.getElementById('contact-form-submit');
+  const feedbackBox = document.getElementById('contact-form-feedback');
+  const feedbackIcon = document.getElementById('contact-form-feedback-icon');
+  const feedbackTitle = document.getElementById('contact-form-feedback-title');
+  const feedbackDetail = document.getElementById('contact-form-feedback-detail');
+
+  const showFeedback = (kind, title, detail = '') => {
+    if (!feedbackBox || !feedbackTitle || !feedbackDetail) return;
+    feedbackBox.hidden = false;
+    feedbackBox.style.display = 'flex';
+    feedbackBox.removeAttribute('aria-hidden');
+    feedbackBox.style.alignItems = 'flex-start';
+    feedbackTitle.textContent = title;
+    feedbackDetail.textContent = detail || '';
+    feedbackDetail.style.display = detail ? 'block' : 'none';
+
+    if (kind === 'success') {
+      feedbackBox.style.borderColor = '#86efac';
+      feedbackBox.style.background = '#ecfdf5';
+      if (feedbackIcon) {
+        feedbackIcon.textContent = 'check_circle';
+        feedbackIcon.style.color = '#059669';
+      }
+      feedbackTitle.style.color = '#065f46';
+      feedbackBox.setAttribute('role', 'status');
+      feedbackBox.setAttribute('aria-live', 'polite');
+    } else if (kind === 'error') {
+      feedbackBox.style.borderColor = '#fecaca';
+      feedbackBox.style.background = '#fef2f2';
+      if (feedbackIcon) {
+        feedbackIcon.textContent = 'error';
+        feedbackIcon.style.color = '#dc2626';
+      }
+      feedbackTitle.style.color = '#991b1b';
+      feedbackBox.setAttribute('role', 'alert');
+      feedbackBox.setAttribute('aria-live', 'assertive');
+    } else if (kind === 'sending') {
+      feedbackBox.style.borderColor = '#bae6fd';
+      feedbackBox.style.background = '#f0f9ff';
+      if (feedbackIcon) {
+        feedbackIcon.textContent = 'hourglass_top';
+        feedbackIcon.style.color = '#0284c7';
+      }
+      feedbackTitle.style.color = '#0c4a6e';
+      feedbackBox.setAttribute('role', 'status');
+      feedbackBox.setAttribute('aria-live', 'polite');
+    }
+
+    feedbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    if (!SAPC_WEB3FORMS_ACCESS_KEY || SAPC_WEB3FORMS_ACCESS_KEY === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+      showFeedback('error', 'Form not configured', 'Add your Web3Forms access key in sap.js.');
+      return;
+    }
+
+    const formData = new FormData(form);
+    const honeypot = (formData.get('botcheck') || '').toString().trim();
+    if (honeypot !== '') {
+      return;
+    }
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.style.opacity = '0.7';
+      submitButton.style.cursor = 'not-allowed';
+      submitButton.textContent = 'SENDING...';
+    }
+
+    showFeedback('sending', 'Sending your enquiry…', 'Please wait a moment.');
+
+    try {
+      const fullName = (formData.get('fullName') || '').toString().trim();
+      const organisation = (formData.get('organisation') || '').toString().trim();
+      const email = (formData.get('email') || '').toString().trim();
+      const phone = (formData.get('phone') || '').toString().trim();
+      const serviceRequired = (formData.get('serviceRequired') || '').toString().trim();
+      const message = (formData.get('message') || '').toString().trim();
+
+      const messageBody = [
+        `Organisation: ${organisation || '—'}`,
+        `Phone: ${phone || '—'}`,
+        `Service: ${serviceRequired || '—'}`,
+        '',
+        message
+      ].join('\n');
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: SAPC_WEB3FORMS_ACCESS_KEY,
+          subject: `Supported Accommodation Providers Consultancy website enquiry — ${serviceRequired || 'General'}`,
+          name: fullName,
+          email,
+          message: messageBody,
+          botcheck: false
+        })
+      });
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success !== true) {
+        throw new Error(result.message || 'Unable to send your enquiry. Please try again or phone us.');
+      }
+
+      form.reset();
+      showFeedback(
+        'success',
+        'Message sent',
+        'Your enquiry was delivered. We will be in touch within 24 hours.'
+      );
+    } catch (error) {
+      showFeedback(
+        'error',
+        'Message not sent',
+        error.message || 'Something went wrong. Please try again or call +44 7833 905183.'
+      );
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.style.opacity = '1';
+        submitButton.style.cursor = 'pointer';
+        submitButton.textContent = 'SUBMIT ENQUIRY';
+      }
+    }
+  });
+}
+
+// ==============================
 // BOOT
 // ==============================
 
@@ -573,7 +723,7 @@ function initAOS() {
       "@type": "Service",
       "name": serviceSchemas[page].name,
       "description": serviceSchemas[page].desc,
-      "provider": { "@type": "Organization", "name": "SAPC — Supported Accommodation Providers Consultancy" },
+      "provider": { "@type": "Organization", "name": "Supported Accommodation Providers Consultancy" },
       "areaServed": { "@type": "Country", "name": "United Kingdom" },
       "serviceType": "Ofsted Compliance Consultancy"
     });
@@ -608,4 +758,5 @@ window.addEventListener('load', () => {
   renderSharedNavbar();
   renderSharedFooter();
   initAOS();
+  initContactForm();
 });
