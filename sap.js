@@ -290,6 +290,7 @@ function renderSharedNavbar() {
 
           <a href="our-approach.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Our Approach</a>
           <a href="ofsted-updates.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Ofsted Updates</a>
+          <a href="useful-links.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Useful Links</a>
           <a href="contact.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Contact</a>
         </div>
 
@@ -323,6 +324,7 @@ function renderSharedNavbar() {
           <a href="recording-templates.html" class="sapc-mob-service">Recording Templates</a>
           <a href="our-approach.html">Our Approach</a>
           <a href="ofsted-updates.html">Ofsted Updates</a>
+          <a href="useful-links.html">Useful Links</a>
           <a href="contact.html">Contact</a>
           <a href="contact.html" class="sapc-mob-cta">Book Consultation</a>
         </div>
@@ -420,6 +422,7 @@ function renderSharedFooter() {
               <li><a href="about-us.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">About Us</a></li>
               <li><a href="our-approach.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Our Approach</a></li>
               <li><a href="ofsted-updates.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Ofsted Updates</a></li>
+              <li><a href="useful-links.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Useful Links</a></li>
               <li><a href="contact.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Contact Us</a></li>
             </ul>
           </div>
