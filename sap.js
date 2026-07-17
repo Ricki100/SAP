@@ -6,7 +6,7 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
 // ==============================
-// RESPONSIVE CSS â€” injected once, covers all 15 pages
+// RESPONSIVE CSS - injected once, covers all 15 pages
 // ==============================
 (function injectResponsiveCSS() {
   const style = document.createElement('style');
@@ -15,7 +15,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
     .sapc-hamburger { display:none; }
     .sapc-book-cta  { display:inline-flex; }
 
-    /* â”€â”€ Mobile + Tablet â‰¤ 1023px â”€â”€ */
+    /* Mobile + tablet <= 1023px */
     @media (max-width:1023px) {
       .sapc-hamburger { display:flex !important; }
       .sapc-book-cta  { display:none !important; }
@@ -60,7 +60,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
       [style*="height:380px"] { height:220px !important; }
     }
 
-    /* â”€â”€ Tablet 768â€“1023px (layout only) â”€â”€ */
+    /* Tablet 768-1023px (layout only) */
     @media (min-width:768px) and (max-width:1023px) {
       [style*="grid-template-columns:repeat(3,1fr)"] {
         grid-template-columns:repeat(2,1fr) !important;
@@ -79,14 +79,14 @@ const $$ = (selector) => document.querySelectorAll(selector);
       h2 { font-size:30px !important; }
     }
 
-    /* â”€â”€ Laptop 1024â€“1279px â”€â”€ */
+    /* Laptop 1024-1279px */
     @media (min-width:1024px) and (max-width:1279px) {
       [style*="padding:80px 48px"] { padding:72px 40px !important; }
       [style*="padding:64px 48px"] { padding:56px 40px !important; }
       [style*="gap:80px"] { gap:56px !important; }
     }
 
-    /* â”€â”€ Widescreen â‰¥1440px â”€â”€ */
+    /* Widescreen >=1440px */
     @media (min-width:1440px) {
       [style*="max-width:1200px"] { max-width:1360px !important; }
     }
@@ -134,7 +134,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
 })();
 
 // ==============================
-// AOS CSS â€” load early
+// AOS CSS - load early
 // ==============================
 (function () {
   const link = document.createElement('link');
@@ -207,7 +207,7 @@ $$('.btn').forEach(button => {
 // ==============================
 const SAPC_CONFIG = { spacingScale:1, animationSpeed:1, enableAnimations:true };
 
-// Contact form â€” Web3Forms (https://web3forms.com). Free tier: sign up, add your site domain,
+// Contact form - Web3Forms (https://web3forms.com). Free tier: sign up, add your site domain,
 // choose the inbox email, then paste the Access Key here (one line).
 const SAPC_WEB3FORMS_ACCESS_KEY = '3f6f8ffc-83e9-4b15-8035-3ef81319a4e0';
 
@@ -437,7 +437,7 @@ function renderSharedFooter() {
           </div>
         </div>
         <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-          <span style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#475569;">Â© 2025 Supported Accommodation Providers Consultancy. All rights reserved.</span>
+          <span style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#475569;">(c) 2025 Supported Accommodation Providers Consultancy. All rights reserved.</span>
           <div style="display:flex;gap:24px;flex-wrap:wrap;">
             <a href="#" style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#64748b;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Privacy Policy</a>
             <a href="#" style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#64748b;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Terms &amp; Conditions</a>
@@ -620,7 +620,7 @@ function initContactForm() {
       submitButton.textContent = 'SENDING...';
     }
 
-    showFeedback('sending', 'Sending your enquiryâ€¦', 'Please wait a moment.');
+    showFeedback('sending', 'Sending your enquiry...', 'Please wait a moment.');
 
     try {
       const fullName = (formData.get('name') || formData.get('fullName') || '').toString().trim();
@@ -631,9 +631,9 @@ function initContactForm() {
       const message = (formData.get('message') || '').toString().trim();
 
       const messageBody = [
-        `Organisation: ${organisation || 'â€”'}`,
-        `Phone: ${phone || 'â€”'}`,
-        `Service: ${serviceRequired || 'â€”'}`,
+        `Organisation: ${organisation || '-'}`,
+        `Phone: ${phone || '-'}`,
+        `Service: ${serviceRequired || '-'}`,
         '',
         message
       ].join('\n');
@@ -703,8 +703,6 @@ function initContactForm() {
 // ==============================
 // BOOT
 // ==============================
-
-// â”€â”€ JSON-LD SCHEMA MARKUP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function injectSchema() {
   const page = window.location.pathname.split('/').pop() || 'index.html';
 
@@ -806,10 +804,7 @@ window.addEventListener('load', () => {
   initContactForm();
   initNewsletterPopup();
 });
-
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-//  NEWSLETTER POPUP â€” appears on every page
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  NEWSLETTER POPUP - appears on every page
 function initNewsletterPopup() {
   if (document.getElementById('contact-form')) return;
 
@@ -821,8 +816,6 @@ function initNewsletterPopup() {
 
   const BREVO_API_KEY = '';
   const BREVO_LIST_ID = 3;
-
-  // â”€â”€ Inject styles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const style = document.createElement('style');
   style.textContent = `
     #sapc-nl-overlay {
@@ -879,8 +872,6 @@ function initNewsletterPopup() {
     }
   `;
   document.head.appendChild(style);
-
-  // â”€â”€ Build HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const overlay = document.createElement('div');
   overlay.id = 'sapc-nl-overlay';
   overlay.setAttribute('role','dialog');
@@ -946,19 +937,13 @@ function initNewsletterPopup() {
     </div>
   `;
   document.body.appendChild(overlay);
-
-  // â”€â”€ Show after 6 seconds â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   setTimeout(() => overlay.classList.add('visible'), 6000);
-
-  // â”€â”€ Also show on exit intent (desktop) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   document.addEventListener('mouseleave', function onExit(e) {
     if (e.clientY < 10) {
       overlay.classList.add('visible');
       document.removeEventListener('mouseleave', onExit);
     }
   });
-
-  // â”€â”€ Close logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function closePopup() {
     overlay.classList.remove('visible');
     setTimeout(() => overlay.remove(), 350);
@@ -971,8 +956,6 @@ function initNewsletterPopup() {
   document.getElementById('sapc-nl-already').addEventListener('click', (e) => {
     e.preventDefault(); closePopup();
   });
-
-  // â”€â”€ Form submission â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   document.getElementById('sapc-nl-popup-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     const btn     = document.getElementById('sapc-nl-submit');
@@ -1031,3 +1014,5 @@ function initNewsletterPopup() {
     }
   });
 }
+
+
