@@ -283,6 +283,7 @@ function renderSharedNavbar() {
               <a href="location-risk-assessments.html">Location Risk Assessments</a>
               <a href="risk-assessment-support-plans.html">Risk Assessment &amp; Support Plan Reviews</a>
               <a href="coaching-mentoring.html">Coaching &amp; Mentoring</a>
+              <a href="nominated-individual-registered-service-manager-mentoring.html">Nominated Individual &amp; RSM Mentoring</a>
               <a href="professional-supervision.html">Professional Supervision</a>
               <a href="recording-templates.html">Recording Templates Development</a>
             </div>
@@ -320,6 +321,7 @@ function renderSharedNavbar() {
           <a href="location-risk-assessments.html" class="sapc-mob-service">Location Risk Assessments</a>
           <a href="risk-assessment-support-plans.html" class="sapc-mob-service">Risk Assessment &amp; Support Plans</a>
           <a href="coaching-mentoring.html" class="sapc-mob-service">Coaching &amp; Mentoring</a>
+          <a href="nominated-individual-registered-service-manager-mentoring.html" class="sapc-mob-service">Nominated Individual &amp; RSM Mentoring</a>
           <a href="professional-supervision.html" class="sapc-mob-service">Professional Supervision</a>
           <a href="recording-templates.html" class="sapc-mob-service">Recording Templates</a>
           <a href="our-approach.html">Our Approach</a>
@@ -412,6 +414,7 @@ function renderSharedFooter() {
               <li><a href="location-risk-assessments.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Location Risk Assessments</a></li>
               <li><a href="risk-assessment-support-plans.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Risk Assessment &amp; Support Plans</a></li>
               <li><a href="coaching-mentoring.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Coaching &amp; Mentoring</a></li>
+              <li><a href="nominated-individual-registered-service-manager-mentoring.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Nominated Individual &amp; RSM Mentoring</a></li>
               <li><a href="professional-supervision.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Professional Supervision</a></li>
               <li><a href="recording-templates.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Recording Templates</a></li>
             </ul>
@@ -747,6 +750,7 @@ function initContactForm() {
     'location-risk-assessments.html': { name: 'Location Risk Assessments', desc: 'Expert property suitability assessments required for Ofsted supported accommodation registration.' },
     'risk-assessment-support-plans.html': { name: 'Risk Assessment & Support Plan Reviews', desc: 'Robust, Ofsted-compliant risk assessments and support plans for young people aged 16-17.' },
     'coaching-mentoring.html': { name: 'Coaching & Mentoring', desc: 'Leadership coaching and mentoring for supported accommodation Registered Managers and senior staff.' },
+    'nominated-individual-registered-service-manager-mentoring.html': { name: 'Nominated Individual & Registered Service Manager Mentoring Programme', desc: 'A practical 12-week mentoring programme for supported accommodation leaders new to managing an Ofsted-registered service.' },
     'professional-supervision.html': { name: 'Professional Supervision', desc: 'Structured professional supervision for supported accommodation staff as required under SA Regulations 2023.' },
     'recording-templates.html': { name: 'Recording Templates Development', desc: 'Bespoke Ofsted-compliant recording templates built for supported accommodation providers.' },
   };
