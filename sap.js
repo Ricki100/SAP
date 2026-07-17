@@ -5,6 +5,12 @@
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
+function getCurrentSlug() {
+  const path = window.location.pathname.replace(/\/+$/g, '');
+  const last = path.split('/').pop() || '';
+  return (last || 'index').replace(/\.html$/i, '');
+}
+
 // ==============================
 // RESPONSIVE CSS - injected once, covers all 15 pages
 // ==============================
@@ -259,14 +265,14 @@ function renderSharedNavbar() {
     <header style="position:sticky;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);border-bottom:1px solid #f1f5f9;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
       <nav class="sapc-navbar" style="display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 48px;height:72px;">
 
-        <a href="index.html" style="flex-shrink:0;line-height:0;">
+        <a href="/" style="flex-shrink:0;line-height:0;">
           <img src="logo@2x.png" alt="Supported Accommodation Providers Consultancy" style="height:32px;width:auto;">
         </a>
 
         <!-- Desktop links -->
         <div id="sapc-desktop-nav" style="display:flex;align-items:center;gap:32px;">
-          <a href="index.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Home</a>
-          <a href="about-us.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">About Us</a>
+          <a href="/" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Home</a>
+          <a href="/about-us/" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">About Us</a>
 
           <div class="sapc-dropdown" id="sapc-svc-wrapper">
             <button class="sapc-svc-btn" id="sapc-svc-btn" aria-haspopup="true" aria-expanded="false">
@@ -274,29 +280,29 @@ function renderSharedNavbar() {
               <span class="material-symbols-outlined sapc-chev" id="sapc-chev">expand_more</span>
             </button>
             <div class="sapc-dd-menu" id="sapc-dd-menu" role="menu">
-              <a href="mock-inspections.html">Ofsted Mock Inspections</a>
-              <a href="registration-support.html">Ofsted Registration Support</a>
-              <a href="post-inspection.html">Post-Ofsted Inspection Support</a>
-              <a href="monthly-monitoring.html">Monthly Monitoring Visits</a>
-              <a href="case-file-audits.html">Case File Audits</a>
+              <a href="/mock-inspections/">Ofsted Mock Inspections</a>
+              <a href="/registration-support/">Ofsted Registration Support</a>
+              <a href="/post-inspection/">Post-Ofsted Inspection Support</a>
+              <a href="/monthly-monitoring/">Monthly Monitoring Visits</a>
+              <a href="/case-file-audits/">Case File Audits</a>
               <div class="dd-divider"></div>
-              <a href="location-risk-assessments.html">Location Risk Assessments</a>
-              <a href="risk-assessment-support-plans.html">Risk Assessment &amp; Support Plan Reviews</a>
-              <a href="coaching-mentoring.html">Coaching &amp; Mentoring</a>
-              <a href="nominated-individual-registered-service-manager-mentoring.html">Nominated Individual &amp; RSM Mentoring</a>
-              <a href="professional-supervision.html">Professional Supervision</a>
-              <a href="recording-templates.html">Recording Templates Development</a>
+              <a href="/location-risk-assessments/">Location Risk Assessments</a>
+              <a href="/risk-assessment-support-plans/">Risk Assessment &amp; Support Plan Reviews</a>
+              <a href="/coaching-mentoring/">Coaching &amp; Mentoring</a>
+              <a href="/nominated-individual-registered-service-manager-mentoring/">Nominated Individual &amp; RSM Mentoring</a>
+              <a href="/professional-supervision/">Professional Supervision</a>
+              <a href="/recording-templates/">Recording Templates Development</a>
             </div>
           </div>
 
-          <a href="our-approach.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Our Approach</a>
-          <a href="ofsted-updates.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Ofsted Updates</a>
-          <a href="useful-links.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Useful Links</a>
-          <a href="contact.html" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Contact</a>
+          <a href="/our-approach/" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Our Approach</a>
+          <a href="/ofsted-updates/" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Ofsted Updates</a>
+          <a href="/useful-links/" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Useful Links</a>
+          <a href="/contact/" class="sapc-navlink" style="font:600 13px/1 'Manrope',sans-serif;color:#4b5563;text-decoration:none;transition:color 0.2s;">Contact</a>
         </div>
 
         <div style="display:flex;align-items:center;gap:12px;">
-          <a href="contact.html" class="sapc-book-cta" style="background:#f99d1c;color:#111827;padding:10px 22px;border-radius:8px;font:700 13px/1 'Manrope',sans-serif;text-decoration:none;white-space:nowrap;transition:background 0.2s;" onmouseover="this.style.background='#e08a0d'" onmouseout="this.style.background='#f99d1c'">
+          <a href="/contact/" class="sapc-book-cta" style="background:#f99d1c;color:#111827;padding:10px 22px;border-radius:8px;font:700 13px/1 'Manrope',sans-serif;text-decoration:none;white-space:nowrap;transition:background 0.2s;" onmouseover="this.style.background='#e08a0d'" onmouseout="this.style.background='#f99d1c'">
             Book Consultation
           </a>
           <button class="sapc-hamburger" id="sapc-hamburger" aria-label="Toggle menu" style="flex-direction:column;justify-content:center;align-items:flex-end;gap:5px;cursor:pointer;background:none;border:none;padding:6px;width:40px;height:40px;">
@@ -310,25 +316,25 @@ function renderSharedNavbar() {
       <!-- Mobile menu -->
       <div class="sapc-mobile-menu" id="sapc-mobile-menu" style="position:absolute;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;box-shadow:0 12px 40px rgba(0,0,0,0.1);max-height:calc(100vh - 72px);overflow-y:auto;z-index:49;">
         <div style="padding:8px 24px 32px;">
-          <a href="index.html">Home</a>
-          <a href="about-us.html">About Us</a>
+          <a href="/">Home</a>
+          <a href="/about-us/">About Us</a>
           <span class="sapc-mob-label">Services</span>
-          <a href="mock-inspections.html" class="sapc-mob-service">Ofsted Mock Inspections</a>
-          <a href="registration-support.html" class="sapc-mob-service">Ofsted Registration Support</a>
-          <a href="post-inspection.html" class="sapc-mob-service">Post-Ofsted Inspection Support</a>
-          <a href="monthly-monitoring.html" class="sapc-mob-service">Monthly Monitoring Visits</a>
-          <a href="case-file-audits.html" class="sapc-mob-service">Case File Audits</a>
-          <a href="location-risk-assessments.html" class="sapc-mob-service">Location Risk Assessments</a>
-          <a href="risk-assessment-support-plans.html" class="sapc-mob-service">Risk Assessment &amp; Support Plans</a>
-          <a href="coaching-mentoring.html" class="sapc-mob-service">Coaching &amp; Mentoring</a>
-          <a href="nominated-individual-registered-service-manager-mentoring.html" class="sapc-mob-service">Nominated Individual &amp; RSM Mentoring</a>
-          <a href="professional-supervision.html" class="sapc-mob-service">Professional Supervision</a>
-          <a href="recording-templates.html" class="sapc-mob-service">Recording Templates</a>
-          <a href="our-approach.html">Our Approach</a>
-          <a href="ofsted-updates.html">Ofsted Updates</a>
-          <a href="useful-links.html">Useful Links</a>
-          <a href="contact.html">Contact</a>
-          <a href="contact.html" class="sapc-mob-cta">Book Consultation</a>
+          <a href="/mock-inspections/" class="sapc-mob-service">Ofsted Mock Inspections</a>
+          <a href="/registration-support/" class="sapc-mob-service">Ofsted Registration Support</a>
+          <a href="/post-inspection/" class="sapc-mob-service">Post-Ofsted Inspection Support</a>
+          <a href="/monthly-monitoring/" class="sapc-mob-service">Monthly Monitoring Visits</a>
+          <a href="/case-file-audits/" class="sapc-mob-service">Case File Audits</a>
+          <a href="/location-risk-assessments/" class="sapc-mob-service">Location Risk Assessments</a>
+          <a href="/risk-assessment-support-plans/" class="sapc-mob-service">Risk Assessment &amp; Support Plans</a>
+          <a href="/coaching-mentoring/" class="sapc-mob-service">Coaching &amp; Mentoring</a>
+          <a href="/nominated-individual-registered-service-manager-mentoring/" class="sapc-mob-service">Nominated Individual &amp; RSM Mentoring</a>
+          <a href="/professional-supervision/" class="sapc-mob-service">Professional Supervision</a>
+          <a href="/recording-templates/" class="sapc-mob-service">Recording Templates</a>
+          <a href="/our-approach/">Our Approach</a>
+          <a href="/ofsted-updates/">Ofsted Updates</a>
+          <a href="/useful-links/">Useful Links</a>
+          <a href="/contact/">Contact</a>
+          <a href="/contact/" class="sapc-mob-cta">Book Consultation</a>
         </div>
       </div>
     </header>
@@ -376,9 +382,14 @@ function renderSharedNavbar() {
   });
 
   // Active page highlight
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const currentPage = getCurrentSlug();
+  const normaliseHref = (href) => {
+    const path = (href || '').split('#')[0].replace(/^https?:\/\/[^/]+/, '');
+    const slug = path.replace(/^\/+|\/+$/g, '').replace(/\.html$/,'');
+    return slug || 'index';
+  };
   document.querySelectorAll('#shared-navbar .sapc-navlink').forEach(link => {
-    if (link.getAttribute('href') === currentPage) {
+    if (normaliseHref(link.getAttribute('href')) === currentPage) {
       link.style.color = '#0a94b2';
       link.style.borderBottom = '2px solid #f99d1c';
       link.style.paddingBottom = '3px';
@@ -398,7 +409,7 @@ function renderSharedFooter() {
       <div style="max-width:1200px;margin:0 auto;">
         <div class="sapc-footer-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:48px;margin-bottom:48px;">
           <div>
-            <a href="index.html" style="display:inline-block;margin-bottom:20px;line-height:0;">
+            <a href="/" style="display:inline-block;margin-bottom:20px;line-height:0;">
               <img src="logo@2x.png" alt="Supported Accommodation Providers Consultancy" style="height:36px;width:auto;">
             </a>
             <p style="font:400 13px/1.7 'Manrope',sans-serif;color:#94a3b8;margin:0;">Empowering providers with precision consultancy and specialised compliance strategies for the supported accommodation sector across England.</p>
@@ -406,27 +417,27 @@ function renderSharedFooter() {
           <div>
             <h4 style="font:700 11px/1 'Manrope',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#fff;margin:0 0 20px;">Our Services</h4>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
-              <li><a href="mock-inspections.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Mock Inspections</a></li>
-              <li><a href="registration-support.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Ofsted Registration Support</a></li>
-              <li><a href="post-inspection.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Post-Ofsted Inspection Support</a></li>
-              <li><a href="monthly-monitoring.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Monthly Monitoring</a></li>
-              <li><a href="case-file-audits.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Case File Audits</a></li>
-              <li><a href="location-risk-assessments.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Location Risk Assessments</a></li>
-              <li><a href="risk-assessment-support-plans.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Risk Assessment &amp; Support Plans</a></li>
-              <li><a href="coaching-mentoring.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Coaching &amp; Mentoring</a></li>
-              <li><a href="nominated-individual-registered-service-manager-mentoring.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Nominated Individual &amp; RSM Mentoring</a></li>
-              <li><a href="professional-supervision.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Professional Supervision</a></li>
-              <li><a href="recording-templates.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Recording Templates</a></li>
+              <li><a href="/mock-inspections/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Mock Inspections</a></li>
+              <li><a href="/registration-support/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Ofsted Registration Support</a></li>
+              <li><a href="/post-inspection/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Post-Ofsted Inspection Support</a></li>
+              <li><a href="/monthly-monitoring/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Monthly Monitoring</a></li>
+              <li><a href="/case-file-audits/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Case File Audits</a></li>
+              <li><a href="/location-risk-assessments/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Location Risk Assessments</a></li>
+              <li><a href="/risk-assessment-support-plans/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Risk Assessment &amp; Support Plans</a></li>
+              <li><a href="/coaching-mentoring/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Coaching &amp; Mentoring</a></li>
+              <li><a href="/nominated-individual-registered-service-manager-mentoring/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Nominated Individual &amp; RSM Mentoring</a></li>
+              <li><a href="/professional-supervision/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Professional Supervision</a></li>
+              <li><a href="/recording-templates/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Recording Templates</a></li>
             </ul>
           </div>
           <div>
             <h4 style="font:700 11px/1 'Manrope',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#fff;margin:0 0 20px;">Company</h4>
             <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
-              <li><a href="about-us.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">About Us</a></li>
-              <li><a href="our-approach.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Our Approach</a></li>
-              <li><a href="ofsted-updates.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Ofsted Updates</a></li>
-              <li><a href="useful-links.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Useful Links</a></li>
-              <li><a href="contact.html" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Contact Us</a></li>
+              <li><a href="/about-us/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">About Us</a></li>
+              <li><a href="/our-approach/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Our Approach</a></li>
+              <li><a href="/ofsted-updates/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Ofsted Updates</a></li>
+              <li><a href="/useful-links/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Useful Links</a></li>
+              <li><a href="/contact/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Contact Us</a></li>
             </ul>
           </div>
           <div>
@@ -707,7 +718,7 @@ function initContactForm() {
 // BOOT
 // ==============================
 (function injectSchema() {
-  const page = window.location.pathname.split('/').pop() || 'index.html';
+  const page = getCurrentSlug();
 
   // Organisation schema on every page
   const orgSchema = {
@@ -742,17 +753,17 @@ function initContactForm() {
 
   // Service schemas per page
   const serviceSchemas = {
-    'mock-inspections.html': { name: 'Ofsted Mock Inspections', desc: 'Rigorous Ofsted mock inspections for supported accommodation providers with detailed action plans and Reg 32 reports.' },
-    'registration-support.html': { name: 'Ofsted Registration Support', desc: 'Expert support navigating the Ofsted registration process for supported accommodation providers under SA Regulations 2023.' },
-    'post-inspection.html': { name: 'Post-Ofsted Inspection Support', desc: 'Strategic support for supported accommodation providers following an Ofsted inspection, focused on achieving Outcome 1.' },
-    'monthly-monitoring.html': { name: 'Monthly Monitoring Visits', desc: 'Regular compliance monitoring visits to keep supported accommodation providers inspection-ready year-round.' },
-    'case-file-audits.html': { name: 'Case File Audits', desc: 'Professional case file audits ensuring documentation meets Ofsted SA Regulations 2023 standards.' },
-    'location-risk-assessments.html': { name: 'Location Risk Assessments', desc: 'Expert property suitability assessments required for Ofsted supported accommodation registration.' },
-    'risk-assessment-support-plans.html': { name: 'Risk Assessment & Support Plan Reviews', desc: 'Robust, Ofsted-compliant risk assessments and support plans for young people aged 16-17.' },
-    'coaching-mentoring.html': { name: 'Coaching & Mentoring', desc: 'Leadership coaching and mentoring for supported accommodation Registered Managers and senior staff.' },
-    'nominated-individual-registered-service-manager-mentoring.html': { name: 'Nominated Individual & Registered Service Manager Mentoring Programme', desc: 'A practical 12-week mentoring programme for supported accommodation leaders new to managing an Ofsted-registered service.' },
-    'professional-supervision.html': { name: 'Professional Supervision', desc: 'Structured professional supervision for supported accommodation staff as required under SA Regulations 2023.' },
-    'recording-templates.html': { name: 'Recording Templates Development', desc: 'Bespoke Ofsted-compliant recording templates built for supported accommodation providers.' },
+    'mock-inspections': { name: 'Ofsted Mock Inspections', desc: 'Rigorous Ofsted mock inspections for supported accommodation providers with detailed action plans and Reg 32 reports.' },
+    'registration-support': { name: 'Ofsted Registration Support', desc: 'Expert support navigating the Ofsted registration process for supported accommodation providers under SA Regulations 2023.' },
+    'post-inspection': { name: 'Post-Ofsted Inspection Support', desc: 'Strategic support for supported accommodation providers following an Ofsted inspection, focused on achieving Outcome 1.' },
+    'monthly-monitoring': { name: 'Monthly Monitoring Visits', desc: 'Regular compliance monitoring visits to keep supported accommodation providers inspection-ready year-round.' },
+    'case-file-audits': { name: 'Case File Audits', desc: 'Professional case file audits ensuring documentation meets Ofsted SA Regulations 2023 standards.' },
+    'location-risk-assessments': { name: 'Location Risk Assessments', desc: 'Expert property suitability assessments required for Ofsted supported accommodation registration.' },
+    'risk-assessment-support-plans': { name: 'Risk Assessment & Support Plan Reviews', desc: 'Robust, Ofsted-compliant risk assessments and support plans for young people aged 16-17.' },
+    'coaching-mentoring': { name: 'Coaching & Mentoring', desc: 'Leadership coaching and mentoring for supported accommodation Registered Managers and senior staff.' },
+    'nominated-individual-registered-service-manager-mentoring': { name: 'Nominated Individual & Registered Service Manager Mentoring Programme', desc: 'A practical 12-week mentoring programme for supported accommodation leaders new to managing an Ofsted-registered service.' },
+    'professional-supervision': { name: 'Professional Supervision', desc: 'Structured professional supervision for supported accommodation staff as required under SA Regulations 2023.' },
+    'recording-templates': { name: 'Recording Templates Development', desc: 'Bespoke Ofsted-compliant recording templates built for supported accommodation providers.' },
   };
 
   function addSchema(obj) {
@@ -778,14 +789,14 @@ function initContactForm() {
 
   // Breadcrumb schema
   const breadcrumbMap = {
-    'index.html': [{ name: 'Home', url: '/' }],
-    'about-us.html': [{ name: 'Home', url: '/' }, { name: 'About Us', url: '/about-us.html' }],
-    'our-approach.html': [{ name: 'Home', url: '/' }, { name: 'Our Approach', url: '/our-approach.html' }],
-    'contact.html': [{ name: 'Home', url: '/' }, { name: 'Contact', url: '/contact.html' }],
-    'ofsted-updates.html': [{ name: 'Home', url: '/' }, { name: 'Ofsted Updates', url: '/ofsted-updates.html' }],
+    'index': [{ name: 'Home', url: '/' }],
+    'about-us': [{ name: 'Home', url: '/' }, { name: 'About Us', url: '/about-us/' }],
+    'our-approach': [{ name: 'Home', url: '/' }, { name: 'Our Approach', url: '/our-approach/' }],
+    'contact': [{ name: 'Home', url: '/' }, { name: 'Contact', url: '/contact/' }],
+    'ofsted-updates': [{ name: 'Home', url: '/' }, { name: 'Ofsted Updates', url: '/ofsted-updates/' }],
   };
   if (serviceSchemas[page]) {
-    breadcrumbMap[page] = [{ name: 'Home', url: '/' }, { name: 'Services', url: '/index.html#services' }, { name: serviceSchemas[page].name, url: '/' + page }];
+    breadcrumbMap[page] = [{ name: 'Home', url: '/' }, { name: 'Services', url: '/#services' }, { name: serviceSchemas[page].name, url: '/' + page + '/' }];
   }
   if (breadcrumbMap[page]) {
     addSchema({
@@ -926,7 +937,7 @@ function initNewsletterPopup() {
           <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;">
             <input type="checkbox" id="nlp-consent" style="margin-top:3px;width:15px;height:15px;accent-color:#004d62;cursor:pointer;flex-shrink:0;"/>
             <label for="nlp-consent" style="font:400 11px/1.6 'Manrope',sans-serif;color:#6b7280;cursor:pointer;">
-              I agree to receive the SAPC newsletter and can unsubscribe anytime. See our <a href="privacy-policy.html" style="color:#004d62;text-decoration:underline;">Privacy Policy</a>.
+              I agree to receive the SAPC newsletter and can unsubscribe anytime. See our <a href="/privacy-policy/" style="color:#004d62;text-decoration:underline;">Privacy Policy</a>.
             </label>
           </div>
           <button type="submit" id="sapc-nl-submit">Subscribe Free</button>
