@@ -1,4 +1,4 @@
-/* ==============================
+﻿/* ==============================
    SAPC GLOBAL JS SYSTEM
    ============================== */
 
@@ -6,7 +6,7 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
 // ==============================
-// RESPONSIVE CSS — injected once, covers all 15 pages
+// RESPONSIVE CSS â€” injected once, covers all 15 pages
 // ==============================
 (function injectResponsiveCSS() {
   const style = document.createElement('style');
@@ -15,7 +15,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
     .sapc-hamburger { display:none; }
     .sapc-book-cta  { display:inline-flex; }
 
-    /* ── Mobile + Tablet ≤ 1023px ── */
+    /* â”€â”€ Mobile + Tablet â‰¤ 1023px â”€â”€ */
     @media (max-width:1023px) {
       .sapc-hamburger { display:flex !important; }
       .sapc-book-cta  { display:none !important; }
@@ -60,7 +60,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
       [style*="height:380px"] { height:220px !important; }
     }
 
-    /* ── Tablet 768–1023px (layout only) ── */
+    /* â”€â”€ Tablet 768â€“1023px (layout only) â”€â”€ */
     @media (min-width:768px) and (max-width:1023px) {
       [style*="grid-template-columns:repeat(3,1fr)"] {
         grid-template-columns:repeat(2,1fr) !important;
@@ -79,14 +79,14 @@ const $$ = (selector) => document.querySelectorAll(selector);
       h2 { font-size:30px !important; }
     }
 
-    /* ── Laptop 1024–1279px ── */
+    /* â”€â”€ Laptop 1024â€“1279px â”€â”€ */
     @media (min-width:1024px) and (max-width:1279px) {
       [style*="padding:80px 48px"] { padding:72px 40px !important; }
       [style*="padding:64px 48px"] { padding:56px 40px !important; }
       [style*="gap:80px"] { gap:56px !important; }
     }
 
-    /* ── Widescreen ≥1440px ── */
+    /* â”€â”€ Widescreen â‰¥1440px â”€â”€ */
     @media (min-width:1440px) {
       [style*="max-width:1200px"] { max-width:1360px !important; }
     }
@@ -134,7 +134,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
 })();
 
 // ==============================
-// AOS CSS — load early
+// AOS CSS â€” load early
 // ==============================
 (function () {
   const link = document.createElement('link');
@@ -207,7 +207,7 @@ $$('.btn').forEach(button => {
 // ==============================
 const SAPC_CONFIG = { spacingScale:1, animationSpeed:1, enableAnimations:true };
 
-// Contact form — Web3Forms (https://web3forms.com). Free tier: sign up, add your site domain,
+// Contact form â€” Web3Forms (https://web3forms.com). Free tier: sign up, add your site domain,
 // choose the inbox email, then paste the Access Key here (one line).
 const SAPC_WEB3FORMS_ACCESS_KEY = '3f6f8ffc-83e9-4b15-8035-3ef81319a4e0';
 
@@ -437,7 +437,7 @@ function renderSharedFooter() {
           </div>
         </div>
         <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-          <span style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#475569;">© 2025 Supported Accommodation Providers Consultancy. All rights reserved.</span>
+          <span style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#475569;">Â© 2025 Supported Accommodation Providers Consultancy. All rights reserved.</span>
           <div style="display:flex;gap:24px;flex-wrap:wrap;">
             <a href="#" style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#64748b;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Privacy Policy</a>
             <a href="#" style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#64748b;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Terms &amp; Conditions</a>
@@ -570,6 +570,30 @@ function initContactForm() {
     feedbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 
+  const sentFromRedirect = new URLSearchParams(window.location.search).get('sent') === '1';
+  if (sentFromRedirect) {
+    showFeedback(
+      'success',
+      'Message sent',
+      'Your enquiry was delivered. We will be in touch within 24 hours.'
+    );
+  }
+
+  return;
+
+  const submitNativeFallback = () => {
+    if (form.dataset.nativeSubmitting === 'true') return false;
+    form.dataset.nativeSubmitting = 'true';
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.style.opacity = '0.7';
+      submitButton.style.cursor = 'not-allowed';
+      submitButton.textContent = 'OPENING SECURE SUBMISSION...';
+    }
+    HTMLFormElement.prototype.submit.call(form);
+    return true;
+  };
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -596,10 +620,10 @@ function initContactForm() {
       submitButton.textContent = 'SENDING...';
     }
 
-    showFeedback('sending', 'Sending your enquiry…', 'Please wait a moment.');
+    showFeedback('sending', 'Sending your enquiryâ€¦', 'Please wait a moment.');
 
     try {
-      const fullName = (formData.get('fullName') || '').toString().trim();
+      const fullName = (formData.get('name') || formData.get('fullName') || '').toString().trim();
       const organisation = (formData.get('organisation') || '').toString().trim();
       const email = (formData.get('email') || '').toString().trim();
       const phone = (formData.get('phone') || '').toString().trim();
@@ -607,32 +631,46 @@ function initContactForm() {
       const message = (formData.get('message') || '').toString().trim();
 
       const messageBody = [
-        `Organisation: ${organisation || '—'}`,
-        `Phone: ${phone || '—'}`,
-        `Service: ${serviceRequired || '—'}`,
+        `Organisation: ${organisation || 'â€”'}`,
+        `Phone: ${phone || 'â€”'}`,
+        `Service: ${serviceRequired || 'â€”'}`,
         '',
         message
       ].join('\n');
 
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const submissionData = new FormData();
+      submissionData.append('access_key', SAPC_WEB3FORMS_ACCESS_KEY);
+      submissionData.append('subject', `Supported Accommodation Providers Consultancy website enquiry - ${serviceRequired || 'General'}`);
+      submissionData.append('from_name', fullName);
+      submissionData.append('name', fullName);
+      submissionData.append('email', email);
+      submissionData.append('organisation', organisation);
+      submissionData.append('phone', phone);
+      submissionData.append('service_required', serviceRequired);
+      submissionData.append('message', messageBody);
+
+      const formResponse = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({
-          access_key: SAPC_WEB3FORMS_ACCESS_KEY,
-          subject: `Supported Accommodation Providers Consultancy website enquiry — ${serviceRequired || 'General'}`,
-          name: fullName,
-          email,
-          message: messageBody,
-          botcheck: false
-        })
+        headers: { Accept: 'application/json' },
+        body: submissionData
       });
 
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || result.success !== true) {
-        throw new Error(result.message || 'Unable to send your enquiry. Please try again or phone us.');
+      const formResponseText = await formResponse.text();
+      let formResult = {};
+      try {
+        formResult = JSON.parse(formResponseText);
+      } catch {
+        formResult = {};
+      }
+
+      if (!formResponse.ok || formResult.success !== true) {
+        const providerBlocked = /enable javascript|cloudflare|just a moment/i.test(formResponseText);
+        throw new Error(
+          formResult.message ||
+          (providerBlocked
+            ? 'The form provider blocked this request. Please email support@sapconsultancy.co.uk or call +44 7833 905183.'
+            : 'Unable to send your enquiry. Please try again or phone us.')
+        );
       }
 
       form.reset();
@@ -642,6 +680,10 @@ function initContactForm() {
         'Your enquiry was delivered. We will be in touch within 24 hours.'
       );
     } catch (error) {
+      if (submitNativeFallback()) {
+        return;
+      }
+
       showFeedback(
         'error',
         'Message not sent',
@@ -662,7 +704,7 @@ function initContactForm() {
 // BOOT
 // ==============================
 
-// ── JSON-LD SCHEMA MARKUP ──────────────────────────────────────────────────
+// â”€â”€ JSON-LD SCHEMA MARKUP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function injectSchema() {
   const page = window.location.pathname.split('/').pop() || 'index.html';
 
@@ -762,4 +804,230 @@ window.addEventListener('load', () => {
   renderSharedFooter();
   initAOS();
   initContactForm();
+  initNewsletterPopup();
 });
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  NEWSLETTER POPUP â€” appears on every page
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+function initNewsletterPopup() {
+  if (document.getElementById('contact-form')) return;
+
+  // Don't show if already subscribed or dismissed today
+  const dismissed = localStorage.getItem('sapc_nl_dismissed');
+  const subscribed = localStorage.getItem('sapc_nl_subscribed');
+  if (subscribed) return;
+  if (dismissed && (Date.now() - parseInt(dismissed)) < 24 * 60 * 60 * 1000) return;
+
+  const BREVO_API_KEY = '';
+  const BREVO_LIST_ID = 3;
+
+  // â”€â”€ Inject styles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  const style = document.createElement('style');
+  style.textContent = `
+    #sapc-nl-overlay {
+      position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;
+      display:flex;align-items:center;justify-content:center;padding:20px;
+      opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.35s ease, visibility 0.35s ease;
+    }
+    #sapc-nl-overlay.visible { opacity:1;visibility:visible;pointer-events:auto; }
+    #sapc-nl-modal {
+      background:#fff;border-radius:20px;overflow:hidden;
+      max-width:780px;width:100%;position:relative;
+      display:grid;grid-template-columns:1fr 1fr;
+      box-shadow:0 24px 80px rgba(0,0,0,0.3);
+      transform:translateY(24px) scale(0.97);
+      transition:transform 0.35s ease;
+    }
+    #sapc-nl-overlay.visible #sapc-nl-modal { transform:translateY(0) scale(1); }
+    #sapc-nl-left {
+      background:#004d62;padding:44px 36px;display:flex;flex-direction:column;justify-content:center;
+    }
+    #sapc-nl-right { padding:44px 36px;display:flex;flex-direction:column;justify-content:center; }
+    #sapc-nl-close {
+      position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;
+      background:rgba(255,255,255,0.15);border:none;cursor:pointer;color:#fff;
+      font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;
+      transition:background 0.2s;z-index:2;font-family:'Manrope',sans-serif;
+    }
+    #sapc-nl-close:hover { background:rgba(255,255,255,0.28); }
+    .nl-input {
+      width:100%;padding:11px 14px;border-radius:8px;border:1.5px solid #e5e7eb;
+      font:400 13px/1 'Manrope',sans-serif;color:#111827;outline:none;
+      box-sizing:border-box;transition:border-color 0.2s;margin-bottom:10px;
+    }
+    .nl-input:focus { border-color:#004d62; }
+    .nl-select {
+      width:100%;padding:11px 14px;border-radius:8px;border:1.5px solid #e5e7eb;
+      font:400 13px/1 'Manrope',sans-serif;color:#6b7280;outline:none;
+      box-sizing:border-box;background:#fff;cursor:pointer;margin-bottom:10px;
+    }
+    #sapc-nl-submit {
+      width:100%;padding:13px;border-radius:8px;background:#f99d1c;
+      color:#111827;font:700 14px/1 'Manrope',sans-serif;border:none;
+      cursor:pointer;transition:background 0.2s;margin-top:4px;
+    }
+    #sapc-nl-submit:hover { background:#e08a0a; }
+    #sapc-nl-submit:disabled { opacity:0.6;cursor:not-allowed; }
+    #sapc-nl-fb { display:none;padding:10px 14px;border-radius:8px;font:600 12px/1.5 'Manrope',sans-serif;margin-top:8px; }
+    .nl-pill { display:inline-flex;align-items:center;gap:6px;font:600 11px/1 'Manrope',sans-serif;color:rgba(255,255,255,0.55);margin-bottom:8px; }
+    .nl-pill span { width:6px;height:6px;border-radius:50%;background:#f99d1c;flex-shrink:0; }
+    @media(max-width:640px) {
+      #sapc-nl-modal { grid-template-columns:1fr !important; }
+      #sapc-nl-left { padding:36px 28px 24px; }
+      #sapc-nl-right { padding:24px 28px 36px; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // â”€â”€ Build HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  const overlay = document.createElement('div');
+  overlay.id = 'sapc-nl-overlay';
+  overlay.setAttribute('role','dialog');
+  overlay.setAttribute('aria-modal','true');
+  overlay.setAttribute('aria-label','Subscribe to the SAPC Newsletter');
+  overlay.innerHTML = `
+    <div id="sapc-nl-modal">
+      <button id="sapc-nl-close" aria-label="Close">x</button>
+
+      <!-- Left panel -->
+      <div id="sapc-nl-left">
+        <p style="font:700 10px/1 'Manrope',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#f99d1c;margin:0 0 14px;">Free Resource</p>
+        <h2 style="font:800 26px/1.2 'Manrope',sans-serif;color:#fff;margin:0 0 14px;">Stay Ofsted-Ready.</h2>
+        <p style="font:400 13px/1.65 'Manrope',sans-serif;color:rgba(255,255,255,0.65);margin:0 0 24px;">
+          Join supported accommodation providers across England who get our free monthly compliance insights, Ofsted updates, and sector news.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="nl-pill"><span></span> Practical Ofsted compliance tips</div>
+          <div class="nl-pill"><span></span> Regulation updates & sector news</div>
+          <div class="nl-pill"><span></span> Mock inspection checklists</div>
+          <div class="nl-pill"><span></span> No spam - unsubscribe anytime</div>
+        </div>
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
+          <p style="font:700 22px/1 'Manrope',sans-serif;color:#fff;margin:0 0 4px;">Free</p>
+          <p style="font:400 12px/1 'Manrope',sans-serif;color:rgba(255,255,255,0.45);margin:0;">Monthly newsletter - cancel anytime</p>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div id="sapc-nl-right">
+        <p style="font:700 10px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;margin:0 0 6px;">Get Started</p>
+        <h3 style="font:800 20px/1.2 'Manrope',sans-serif;color:#111827;margin:0 0 20px;">Subscribe in 30 seconds</h3>
+
+        <form id="sapc-nl-popup-form" novalidate>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <input class="nl-input" id="nlp-fname" type="text" placeholder="First name" autocomplete="given-name"/>
+            <input class="nl-input" id="nlp-lname" type="text" placeholder="Last name" autocomplete="family-name"/>
+          </div>
+          <input class="nl-input" id="nlp-email" type="email" placeholder="Email address *" required autocomplete="email"/>
+          <select class="nl-select" id="nlp-role">
+            <option value="">Your role (optional)</option>
+            <option value="Registered Manager">Registered Manager</option>
+            <option value="Nominated Individual">Nominated Individual</option>
+            <option value="Director / Owner">Director / Owner</option>
+            <option value="Operations Manager">Operations Manager</option>
+            <option value="Support Worker">Support Worker</option>
+            <option value="Other">Other</option>
+          </select>
+          <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;">
+            <input type="checkbox" id="nlp-consent" style="margin-top:3px;width:15px;height:15px;accent-color:#004d62;cursor:pointer;flex-shrink:0;"/>
+            <label for="nlp-consent" style="font:400 11px/1.6 'Manrope',sans-serif;color:#6b7280;cursor:pointer;">
+              I agree to receive the SAPC newsletter and can unsubscribe anytime. See our <a href="privacy-policy.html" style="color:#004d62;text-decoration:underline;">Privacy Policy</a>.
+            </label>
+          </div>
+          <button type="submit" id="sapc-nl-submit">Subscribe Free</button>
+          <div id="sapc-nl-fb"></div>
+        </form>
+
+        <p style="font:400 11px/1.5 'Manrope',sans-serif;color:#9ca3af;margin:14px 0 0;text-align:center;">
+          Already subscribed? <a href="#" id="sapc-nl-already" style="color:#004d62;text-decoration:underline;">Click here</a>
+        </p>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // â”€â”€ Show after 6 seconds â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  setTimeout(() => overlay.classList.add('visible'), 6000);
+
+  // â”€â”€ Also show on exit intent (desktop) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  document.addEventListener('mouseleave', function onExit(e) {
+    if (e.clientY < 10) {
+      overlay.classList.add('visible');
+      document.removeEventListener('mouseleave', onExit);
+    }
+  });
+
+  // â”€â”€ Close logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  function closePopup() {
+    overlay.classList.remove('visible');
+    setTimeout(() => overlay.remove(), 350);
+    localStorage.setItem('sapc_nl_dismissed', Date.now().toString());
+  }
+
+  document.getElementById('sapc-nl-close').addEventListener('click', closePopup);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closePopup(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
+  document.getElementById('sapc-nl-already').addEventListener('click', (e) => {
+    e.preventDefault(); closePopup();
+  });
+
+  // â”€â”€ Form submission â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  document.getElementById('sapc-nl-popup-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn     = document.getElementById('sapc-nl-submit');
+    const fb      = document.getElementById('sapc-nl-fb');
+    const email   = document.getElementById('nlp-email').value.trim();
+    const fname   = document.getElementById('nlp-fname').value.trim();
+    const lname   = document.getElementById('nlp-lname').value.trim();
+    const role    = document.getElementById('nlp-role').value;
+    const consent = document.getElementById('nlp-consent').checked;
+
+    if (!email || !/\S+@\S+\.\S+/.test(email)) { showFb('Please enter a valid email address.', false); return; }
+    if (!consent) { showFb('Please tick the consent checkbox to continue.', false); return; }
+    if (!BREVO_API_KEY) { showFb('Newsletter signup is being updated. Please email support@sapconsultancy.co.uk and we will add you.', true); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Subscribing...';
+
+    try {
+      const body = { email, listIds:[BREVO_LIST_ID], updateEnabled:true, attributes:{} };
+      if (fname) body.attributes.FIRSTNAME = fname;
+      if (lname) body.attributes.LASTNAME  = lname;
+      if (role)  body.attributes.JOB_TITLE = role;
+
+      const res = await fetch('https://api.brevo.com/v3/contacts', {
+        method:'POST',
+        headers:{ 'api-key': BREVO_API_KEY, 'Content-Type':'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if (res.ok || res.status === 204) {
+        showFb('Welcome! You\'re now subscribed.', true);
+        localStorage.setItem('sapc_nl_subscribed','1');
+        setTimeout(closePopup, 2200);
+      } else {
+        const d = await res.json();
+        if (d.code === 'duplicate_parameter') {
+          showFb('You\'re already subscribed - thank you!', true);
+          localStorage.setItem('sapc_nl_subscribed','1');
+          setTimeout(closePopup, 2200);
+        } else {
+          showFb('Something went wrong. Please try again.', false);
+          btn.disabled = false; btn.textContent = 'Subscribe Free';
+        }
+      }
+    } catch(err) {
+      showFb('Network error - please try again shortly.', false);
+      btn.disabled = false; btn.textContent = 'Subscribe Free';
+    }
+
+    function showFb(msg, ok) {
+      fb.style.display = 'block';
+      fb.style.background = ok ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)';
+      fb.style.color = ok ? '#15803d' : '#dc2626';
+      fb.style.border = ok ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(239,68,68,0.3)';
+      fb.textContent = msg;
+    }
+  });
+}

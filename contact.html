@@ -1,6 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QY5KMSMW9H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QY5KMSMW9H');
+  </script>
   <!-- Meta Pixel Code -->
   <script>
   !function(f,b,e,v,n,t,s)
@@ -62,7 +71,7 @@
 <section style="background:#004d62;overflow:hidden;">
   <div style="max-width:1200px;margin:0 auto;padding:64px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
     <div>
-      <span style="font:700 11px/1 'Manrope',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#f99d1c;display:block;margin-bottom:16px;">OFSTED COMPLIANCE EXPERTS · ENGLAND</span>
+      <span style="font:700 11px/1 'Manrope',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#f99d1c;display:block;margin-bottom:16px;">OFSTED COMPLIANCE EXPERTS Â· ENGLAND</span>
       <h1 style="font:800 48px/1.15 'Manrope',sans-serif;color:#fff;margin-bottom:20px;">Contact Us</h1>
       <p style="font:400 15px/1.65 'Manrope',sans-serif;color:rgba(255,255,255,0.75);">Supported Accommodation Providers Consultancy is dedicated to helping providers achieve excellence in supported accommodation Ofsted standards across England.</p>
     </div>
@@ -108,12 +117,15 @@
     </div>
 
     <!-- RIGHT: Contact Form -->
-    <div style="background:#fff;border-radius:14px;padding:40px;box-shadow:0 4px 32px rgba(10,148,178,0.1);border:1px solid #f0f0f0;">
-      <form id="contact-form" novalidate>
+    <div style="background:#fff;border-radius:14px;padding:40px;box-shadow:0 4px 32px rgba(10,148,178,0.1);border:1px solid #f0f0f0;position:relative;z-index:10000;pointer-events:auto;">
+      <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="3f6f8ffc-83e9-4b15-8035-3ef81319a4e0"/>
+        <input type="hidden" name="subject" value="Supported Accommodation Providers Consultancy website enquiry"/>
+        <input type="hidden" name="redirect" value="https://www.sapconsultancy.co.uk/thank-you.html"/>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
           <div>
             <label style="font:600 12px/1 'Manrope',sans-serif;color:#6b7280;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Full Name</label>
-            <input type="text" name="fullName" placeholder="John Doe" required style="width:100%;padding:11px 14px;border-radius:6px;border:1px solid #e5e7eb;font:400 14px/1 'Manrope',sans-serif;color:#111827;"/>
+            <input type="text" name="name" placeholder="John Doe" required style="width:100%;padding:11px 14px;border-radius:6px;border:1px solid #e5e7eb;font:400 14px/1 'Manrope',sans-serif;color:#111827;"/>
           </div>
           <div>
             <label style="font:600 12px/1 'Manrope',sans-serif;color:#6b7280;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Organisation</label>
@@ -145,7 +157,7 @@
           <label style="font:600 12px/1 'Manrope',sans-serif;color:#6b7280;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Message</label>
           <textarea rows="4" name="message" placeholder="How can we help you today?" required style="width:100%;padding:11px 14px;border-radius:6px;border:1px solid #e5e7eb;font:400 14px/1.6 'Manrope',sans-serif;color:#111827;resize:vertical;"></textarea>
         </div>
-        <input type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;"/>
+        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none;"/>
         <div id="contact-form-feedback" hidden aria-hidden="true" style="display:none;margin:0 0 16px;padding:14px 16px;border-radius:8px;border:1px solid #e5e7eb;background:#f9fafb;align-items:flex-start;gap:12px;">
           <span id="contact-form-feedback-icon" class="material-symbols-outlined" style="font-size:22px;flex-shrink:0;margin-top:1px;" aria-hidden="true"></span>
           <div style="flex:1;min-width:0;">
@@ -153,13 +165,13 @@
             <p id="contact-form-feedback-detail" style="font:400 13px/1.5 'Manrope',sans-serif;margin:0;color:#6b7280;"></p>
           </div>
         </div>
-        <button id="contact-form-submit" type="submit" style="width:100%;padding:14px;border-radius:6px;font:700 13px/1 'Manrope',sans-serif;background:#f99d1c;color:#fff;border:none;cursor:pointer;">SUBMIT ENQUIRY</button>
+        <button id="contact-form-submit" type="submit" style="width:100%;padding:14px;border-radius:6px;font:700 13px/1 'Manrope',sans-serif;background:#f99d1c;color:#fff;border:none;cursor:pointer;position:relative;z-index:10001;pointer-events:auto;">SUBMIT ENQUIRY</button>
       </form>
     </div>
   </div>
 </section>
 
-<!-- MAP SECTION — UK-FOCUSED TEXT MAP -->
+<!-- MAP SECTION â€” UK-FOCUSED TEXT MAP -->
 <section style="background:#f0f9fb;padding:0;">
   <div style="max-width:1200px;margin:0 auto;padding:0 48px 80px;">
     <div style="border-radius:14px;overflow:hidden;background:#004d62;padding:48px;display:flex;align-items:center;justify-content:center;min-height:240px;position:relative;">
@@ -170,7 +182,7 @@
       <div style="text-align:center;position:relative;z-index:1;">
         <span class="material-symbols-outlined" style="color:#f99d1c;font-size:48px;display:block;margin-bottom:16px;">location_on</span>
         <h3 style="font:800 28px/1.2 'Manrope',sans-serif;color:#fff;margin-bottom:8px;">Serving Providers Across England</h3>
-        <p style="font:400 14px/1.65 'Manrope',sans-serif;color:rgba(255,255,255,0.7);max-width:400px;">Our consultants travel nationwide — from London and the South East to the North West, Yorkshire, the Midlands, and beyond. Wherever your provision is, we can reach you.</p>
+        <p style="font:400 14px/1.65 'Manrope',sans-serif;color:rgba(255,255,255,0.7);max-width:400px;">Our consultants travel nationwide â€” from London and the South East to the North West, Yorkshire, the Midlands, and beyond. Wherever your provision is, we can reach you.</p>
       </div>
     </div>
   </div>
@@ -209,12 +221,15 @@
     <p style="font:400 16px/1.65 'Manrope',sans-serif;color:#111827;margin-bottom:32px;">Partner with us to achieve Ofsted compliance and deliver outstanding outcomes<br>for young people.</p>
     <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
       <a href="contact.html" style="display:inline-flex;align-items:center;gap:6px;padding:14px 28px;border-radius:6px;font:700 13px/1 'Manrope',sans-serif;background:#fff;color:#111827;text-decoration:none;">Book a Consultation</a>
-      <a href="index.html#services" style="display:inline-flex;align-items:center;gap:6px;padding:14px 28px;border-radius:6px;font:700 13px/1 'Manrope',sans-serif;background:#004d62;color:#fff;text-decoration:none;">View Our Services →</a>
+      <a href="index.html#services" style="display:inline-flex;align-items:center;gap:6px;padding:14px 28px;border-radius:6px;font:700 13px/1 'Manrope',sans-serif;background:#004d62;color:#fff;text-decoration:none;">View Our Services â†’</a>
     </div>
   </div>
 </section>
 
 <div id="shared-footer"></div>
-<script src="sap.js"></script>
+<script src="sap.js?v=20260630-textfix"></script>
 </body>
 </html>
+
+
+
