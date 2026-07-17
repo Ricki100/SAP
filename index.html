@@ -380,14 +380,7 @@
 </section>
 
 <script>
-// SETUP INSTRUCTIONS:
-// 1. Go to https://app.brevo.com -> Sign up free
-// 2. Go to Settings -> API Keys -> Generate a new API key
-// 3. Go to Contacts -> Lists -> Create a list called "SAPC Newsletter"
-// 4. Note the List ID (a number, e.g. 3)
-// 5. Replace BREVO_API_KEY and BREVO_LIST_ID below with your values
-const BREVO_API_KEY = '';
-const BREVO_LIST_ID = 3;
+const MAKE_NEWSLETTER_WEBHOOK_URL = 'https://hook.eu1.make.com/zo5d8tdps58d29y91ddsrh3odcvtqgyp';
 
 document.getElementById('sapc-newsletter-form').addEventListener('submit', async function(e) {
   e.preventDefault();
@@ -406,41 +399,28 @@ document.getElementById('sapc-newsletter-form').addEventListener('submit', async
   if (!consent) {
     showFeedback('Please tick the consent box to subscribe.', false); return;
   }
-  if (!BREVO_API_KEY) {
-    showFeedback('Newsletter signup is being updated. Please email support@sapconsultancy.co.uk and we will add you.', true); return;
-  }
-
   btn.disabled = true;
   btn.textContent = 'Subscribing...';
 
   try {
-    const body = {
-      email,
-      listIds: [BREVO_LIST_ID],
-      updateEnabled: true,
-      attributes: {}
-    };
-    if (fname) body.attributes.FIRSTNAME = fname;
-    if (lname)  body.attributes.LASTNAME  = lname;
-    if (role)   body.attributes.JOB_TITLE = role;
+    const body = new FormData();
+    body.append('email', email);
+    body.append('first_name', fname);
+    body.append('last_name', lname);
+    body.append('role', role);
+    body.append('consent', consent ? 'yes' : 'no');
+    body.append('source', 'homepage_newsletter');
+    body.append('page', window.location.href);
+    body.append('submitted_at', new Date().toISOString());
 
-    const res = await fetch('https://api.brevo.com/v3/contacts', {
+    await fetch(MAKE_NEWSLETTER_WEBHOOK_URL, {
       method: 'POST',
-      headers: { 'api-key': BREVO_API_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      mode: 'no-cors',
+      body
     });
 
-    if (res.ok || res.status === 204) {
-      showFeedback('OK You\'re subscribed! Welcome to the SAPC community.', true);
-      document.getElementById('sapc-newsletter-form').reset();
-    } else {
-      const data = await res.json();
-      if (data.code === 'duplicate_parameter') {
-        showFeedback('OK You\'re already subscribed - thank you!', true);
-      } else {
-        showFeedback('Something went wrong. Please try again or email us at support@sapconsultancy.co.uk', false);
-      }
-    }
+    showFeedback('OK You\'re subscribed! Welcome to the SAPC community.', true);
+    document.getElementById('sapc-newsletter-form').reset();
   } catch(err) {
     showFeedback('Network error. Please try again shortly.', false);
   } finally {

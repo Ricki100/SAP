@@ -818,8 +818,7 @@ function initNewsletterPopup() {
   if (subscribed) return;
   if (dismissed && (Date.now() - parseInt(dismissed)) < 24 * 60 * 60 * 1000) return;
 
-  const BREVO_API_KEY = '';
-  const BREVO_LIST_ID = 3;
+  const MAKE_NEWSLETTER_WEBHOOK_URL = 'https://hook.eu1.make.com/zo5d8tdps58d29y91ddsrh3odcvtqgyp';
   const style = document.createElement('style');
   style.textContent = `
     #sapc-nl-overlay {
@@ -972,38 +971,30 @@ function initNewsletterPopup() {
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) { showFb('Please enter a valid email address.', false); return; }
     if (!consent) { showFb('Please tick the consent checkbox to continue.', false); return; }
-    if (!BREVO_API_KEY) { showFb('Newsletter signup is being updated. Please email support@sapconsultancy.co.uk and we will add you.', true); return; }
 
     btn.disabled = true;
     btn.textContent = 'Subscribing...';
 
     try {
-      const body = { email, listIds:[BREVO_LIST_ID], updateEnabled:true, attributes:{} };
-      if (fname) body.attributes.FIRSTNAME = fname;
-      if (lname) body.attributes.LASTNAME  = lname;
-      if (role)  body.attributes.JOB_TITLE = role;
+      const body = new FormData();
+      body.append('email', email);
+      body.append('first_name', fname);
+      body.append('last_name', lname);
+      body.append('role', role);
+      body.append('consent', consent ? 'yes' : 'no');
+      body.append('source', 'newsletter_popup');
+      body.append('page', window.location.href);
+      body.append('submitted_at', new Date().toISOString());
 
-      const res = await fetch('https://api.brevo.com/v3/contacts', {
+      await fetch(MAKE_NEWSLETTER_WEBHOOK_URL, {
         method:'POST',
-        headers:{ 'api-key': BREVO_API_KEY, 'Content-Type':'application/json' },
-        body: JSON.stringify(body)
+        mode:'no-cors',
+        body
       });
 
-      if (res.ok || res.status === 204) {
-        showFb('Welcome! You\'re now subscribed.', true);
-        localStorage.setItem('sapc_nl_subscribed','1');
-        setTimeout(closePopup, 2200);
-      } else {
-        const d = await res.json();
-        if (d.code === 'duplicate_parameter') {
-          showFb('You\'re already subscribed - thank you!', true);
-          localStorage.setItem('sapc_nl_subscribed','1');
-          setTimeout(closePopup, 2200);
-        } else {
-          showFb('Something went wrong. Please try again.', false);
-          btn.disabled = false; btn.textContent = 'Subscribe Free';
-        }
-      }
+      showFb('Welcome! You\'re now subscribed.', true);
+      localStorage.setItem('sapc_nl_subscribed','1');
+      setTimeout(closePopup, 2200);
     } catch(err) {
       showFb('Network error - please try again shortly.', false);
       btn.disabled = false; btn.textContent = 'Subscribe Free';

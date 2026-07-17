@@ -426,22 +426,19 @@
   <style>@media(max-width:768px){#newsletter>div{grid-template-columns:1fr!important;gap:32px!important;}}</style>
 </section>
 <script>
-const BREVO_API_KEY = '';
-const BREVO_LIST_ID = 3;
+const MAKE_NEWSLETTER_WEBHOOK_URL = 'https://hook.eu1.make.com/zo5d8tdps58d29y91ddsrh3odcvtqgyp';
 document.getElementById('sapc-newsletter-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn=document.getElementById('nl-submit-btn'),fb=document.getElementById('nl-feedback');
   const email=document.getElementById('nl-email').value.trim(),fname=document.getElementById('nl-firstname').value.trim(),lname=document.getElementById('nl-lastname').value.trim(),role=document.getElementById('nl-role').value,consent=document.getElementById('nl-consent').checked;
   if(!email||!/\S+@\S+\.\S+/.test(email)){showFeedback('Please enter a valid email address.',false);return;}
   if(!consent){showFeedback('Please tick the consent box to subscribe.',false);return;}
-  if(!BREVO_API_KEY){showFeedback('Newsletter signup is being updated. Please email support@sapconsultancy.co.uk and we will add you.',true);return;}
   btn.disabled=true;btn.textContent='Subscribing...';
   try{
-    const body={email,listIds:[BREVO_LIST_ID],updateEnabled:true,attributes:{}};
-    if(fname)body.attributes.FIRSTNAME=fname;if(lname)body.attributes.LASTNAME=lname;if(role)body.attributes.JOB_TITLE=role;
-    const res=await fetch('https://api.brevo.com/v3/contacts',{method:'POST',headers:{'api-key':BREVO_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(res.ok||res.status===204){showFeedback("OK You're subscribed! Welcome to the SAPC community.",true);document.getElementById('sapc-newsletter-form').reset();}
-    else{const d=await res.json();d.code==='duplicate_parameter'?showFeedback("OK You're already subscribed - thank you!",true):showFeedback('Something went wrong. Please email support@sapconsultancy.co.uk',false);}
+    const body=new FormData();
+    body.append('email',email);body.append('first_name',fname);body.append('last_name',lname);body.append('role',role);body.append('consent',consent?'yes':'no');body.append('source','useful_links_newsletter');body.append('page',window.location.href);body.append('submitted_at',new Date().toISOString());
+    await fetch(MAKE_NEWSLETTER_WEBHOOK_URL,{method:'POST',mode:'no-cors',body});
+    showFeedback("OK You're subscribed! Welcome to the SAPC community.",true);document.getElementById('sapc-newsletter-form').reset();
   }catch(err){showFeedback('Network error. Please try again shortly.',false);}
   finally{btn.disabled=false;btn.textContent="Subscribe - It's Free";}
   function showFeedback(msg,success){fb.style.display='block';fb.style.background=success?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)';fb.style.color=success?'#86efac':'#fca5a5';fb.style.border=success?'1px solid rgba(34,197,94,0.3)':'1px solid rgba(239,68,68,0.3)';fb.textContent=msg;}
