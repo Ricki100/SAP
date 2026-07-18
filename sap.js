@@ -5,6 +5,23 @@
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
+function cleanLegacyUrl() {
+  const { pathname, search, hash } = window.location;
+  let cleanPath = pathname;
+
+  if (/\/index\.html$/i.test(cleanPath)) {
+    cleanPath = cleanPath.replace(/\/index\.html$/i, '/');
+  } else if (/\.html$/i.test(cleanPath)) {
+    cleanPath = cleanPath.replace(/\.html$/i, '/');
+  }
+
+  if (cleanPath !== pathname) {
+    window.history.replaceState(null, document.title, `${cleanPath}${search}${hash}`);
+  }
+}
+
+cleanLegacyUrl();
+
 function getCurrentSlug() {
   const path = window.location.pathname.replace(/\/+$/g, '');
   const last = path.split('/').pop() || '';
