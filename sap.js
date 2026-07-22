@@ -1,11 +1,54 @@
-﻿/* ==============================
+/* ==============================
    SAPC GLOBAL JS SYSTEM
    ============================== */
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
+function injectPremiumFonts() {
+  if (document.querySelector('link[data-sapc-premium-fonts]')) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap';
+  link.dataset.sapcPremiumFonts = 'true';
+  document.head.appendChild(link);
+}
+
+injectPremiumFonts();
+
+const SAPC_ASSET_BASE = (() => {
+  if (window.location.protocol === 'file:') {
+    const script = Array.from(document.scripts).find((item) => /sap\.js(?:\?.*)?$/i.test(item.src));
+    if (script && script.src) {
+      return script.src.replace(/sap\.js(?:\?.*)?$/i, '');
+    }
+  }
+  return '/';
+})();
+
+function sapcLocalHref(href) {
+  if (window.location.protocol !== 'file:' || !href || !href.startsWith('/')) return href;
+
+  const [pathAndQuery, hash = ''] = href.split('#');
+  const hashPart = hash ? `#${hash}` : '';
+  const [pathOnly, query = ''] = pathAndQuery.split('?');
+  const queryPart = query ? `?${query}` : '';
+  const cleanPath = pathOnly.replace(/^\/+|\/+$/g, '');
+
+  if (!cleanPath) return `${SAPC_ASSET_BASE}index.html${queryPart}${hashPart}`;
+  return `${SAPC_ASSET_BASE}${cleanPath}/index.html${queryPart}${hashPart}`;
+}
+
+function applyLocalPreviewLinks(root = document) {
+  if (window.location.protocol !== 'file:') return;
+  root.querySelectorAll('a[href^="/"]').forEach((link) => {
+    link.setAttribute('href', sapcLocalHref(link.getAttribute('href')));
+  });
+}
+
 function cleanLegacyUrl() {
+  if (window.location.protocol === 'file:') return;
+
   const { pathname, search, hash } = window.location;
   let cleanPath = pathname;
 
@@ -34,7 +77,61 @@ function getCurrentSlug() {
 (function injectResponsiveCSS() {
   const style = document.createElement('style');
   style.textContent = `
-    html { scrollbar-gutter: stable; }
+    :root {
+      --sapc-font-body: "Inter", "Segoe UI", Arial, sans-serif;
+      --sapc-font-display: "Plus Jakarta Sans", "Inter", "Segoe UI", Arial, sans-serif;
+    }
+    body,
+    body *:not(.material-symbols-outlined) {
+      font-family: var(--sapc-font-body) !important;
+      letter-spacing: 0 !important;
+    }
+    h1, h2, h3,
+    [style*="font:800"],
+    [style*="font:700"] {
+      font-family: var(--sapc-font-display) !important;
+    }
+    html {
+      scrollbar-gutter: stable;
+      overflow-x: hidden;
+      text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    section,
+    header,
+    footer,
+    main,
+    div,
+    article,
+    nav {
+      min-width: 0;
+    }
+    img,
+    iframe,
+    video {
+      max-width: 100%;
+    }
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    span,
+    a,
+    label {
+      overflow-wrap: break-word;
+    }
+    h1,
+    h2,
+    h3 {
+      word-break: normal !important;
+      hyphens: none !important;
+    }
     .sapc-hamburger { display:none; }
     .sapc-book-cta  { display:inline-flex; }
 
@@ -43,6 +140,12 @@ function getCurrentSlug() {
       .sapc-hamburger { display:flex !important; }
       .sapc-book-cta  { display:none !important; }
 
+      [style*="max-width:1200px"] {
+        width:min(100% - 40px, 1200px) !important;
+        max-width:1200px !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+      }
       [style*="grid-template-columns:1fr 1fr"] {
         grid-template-columns:1fr !important;
         gap:28px !important;
@@ -51,27 +154,78 @@ function getCurrentSlug() {
         grid-template-columns:repeat(2,1fr) !important;
         gap:16px !important;
       }
+      .home-stats-inner {
+        grid-template-columns:1fr !important;
+      }
+      [style*="grid-template-columns:repeat(5,1fr)"] {
+        grid-template-columns:1fr !important;
+        gap:16px !important;
+      }
       [style*="grid-template-columns:repeat(3,1fr)"] {
         grid-template-columns:1fr !important;
       }
       [style*="grid-column:2"] { grid-column:auto !important; }
 
-      [style*="padding:80px 48px"]   { padding:48px 20px !important; }
-      [style*="padding:64px 48px"]   { padding:48px 20px !important; }
-      [style*="padding:32px 48px"]   { padding:20px 20px !important; }
-      section[style*="padding:80px"] { padding:48px 20px !important; }
+      [style*="padding:80px 48px"]   { padding:52px 0 !important; }
+      [style*="padding:64px 48px"]   { padding:48px 0 !important; }
+      [style*="padding:32px 48px"]   { padding:24px 0 !important; }
+      section[style*="padding:80px"] { padding:52px 20px !important; }
       section[style*="padding:64px"] { padding:48px 20px !important; }
+      [style*="gap:80px"] { gap:34px !important; }
+      [style*="gap:64px"] { gap:30px !important; }
+      [style*="gap:48px"] { gap:28px !important; }
 
-      h1 { font-size:28px !important; line-height:1.2 !important; }
-      h2 { font-size:24px !important; line-height:1.25 !important; }
+      h1,
+      [style*="font:800 48px"],
+      [style*="font:800 56px"],
+      [style*="font:800 64px"] {
+        font-size:clamp(32px, 10vw, 44px) !important;
+        line-height:1.08 !important;
+      }
+      h2,
+      [style*="font:800 40px"],
+      [style*="font:800 48px/1.15"] {
+        font-size:clamp(26px, 7.2vw, 36px) !important;
+        line-height:1.14 !important;
+      }
+      p,
+      [style*="font:400 15px"],
+      [style*="font:400 16px"] {
+        font-size:15px !important;
+        line-height:1.7 !important;
+      }
 
-      /* Hide hero right-col image on mobile */
-      section[style*="background:#004d62"] > div > div:nth-child(2) { display:none !important; }
+      section[style*="background:#004d62"] > div > div:nth-child(2) {
+        display:block !important;
+        width:100% !important;
+      }
+      section[style*="background:#004d62"] > div > div:nth-child(2)[style*="height"] {
+        height:auto !important;
+        min-height:0 !important;
+      }
+      section[style*="background:#004d62"] img,
+      section[style*="background:#004d62"] iframe {
+        width:100% !important;
+      }
+      section[style*="background:#004d62"] iframe {
+        aspect-ratio:16 / 9 !important;
+        height:auto !important;
+      }
 
       [style*="display:flex;gap:14px;justify-content:center"] {
         flex-direction:column !important;
         align-items:center !important;
         gap:10px !important;
+      }
+      [style*="display:flex;gap:12px"],
+      [style*="display:flex;gap:14px"] {
+        gap:12px !important;
+      }
+      [style*="display:inline-flex"][style*="padding:12px 24px"],
+      [style*="display:inline-flex"][style*="padding:14px 28px"],
+      button[style*="padding:15px 28px"] {
+        min-height:48px !important;
+        justify-content:center !important;
       }
       [style*="grid-template-columns:1fr 1fr;gap:16px"] {
         grid-template-columns:1fr !important;
@@ -81,15 +235,189 @@ function getCurrentSlug() {
       [style*="height:340px"] { height:220px !important; }
       [style*="height:360px"] { height:220px !important; }
       [style*="height:380px"] { height:220px !important; }
+      .home-hero-inner {
+        box-sizing:border-box !important;
+        width:min(100%, 390px) !important;
+        max-width:390px !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        padding-left:24px !important;
+        padding-right:24px !important;
+        overflow:hidden !important;
+      }
+      .home-hero-inner p,
+      .home-hero-actions a,
+      .home-video-frame {
+        box-sizing:border-box !important;
+        max-width:100% !important;
+      }
+      .home-hero-inner p {
+        max-width:100% !important;
+        font-size:14px !important;
+      }
+      section[style*="background:#004d62"] > div[style*="grid-template-columns:1fr 1fr"],
+      section[style*="border-bottom"] > div[style*="grid-template-columns:repeat(4,1fr)"] {
+        box-sizing:border-box !important;
+        width:min(100%, 390px) !important;
+        max-width:390px !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        padding-left:24px !important;
+        padding-right:24px !important;
+        overflow:hidden !important;
+      }
+      section[style*="border-bottom"] > div[style*="grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns:1fr !important;
+      }
+    }
+
+    @media (max-width:480px) {
+      .sapc-navbar {
+        max-width:none !important;
+        width:100% !important;
+        padding:0 20px !important;
+        height:72px !important;
+      }
+      .sapc-navbar img {
+        height:34px !important;
+      }
+      .sapc-hamburger {
+        width:44px !important;
+        height:44px !important;
+        align-items:center !important;
+      }
+      .home-hero-section {
+        width:100vw !important;
+        max-width:100vw !important;
+        overflow:hidden !important;
+      }
+      .home-hero-inner,
+      [style*="max-width:1200px"][style*="grid-template-columns"] {
+        box-sizing:border-box !important;
+        width:min(100%, 390px) !important;
+        max-width:390px !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        padding-left:24px !important;
+        padding-right:24px !important;
+        overflow:hidden !important;
+      }
+      .home-hero-inner > div {
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+      }
+      .home-hero-inner h1 {
+        font-size:clamp(28px, 8.4vw, 32px) !important;
+        line-height:1.12 !important;
+        max-width:100% !important;
+        word-break:normal !important;
+        overflow-wrap:anywhere !important;
+        text-wrap:balance !important;
+      }
+      .home-hero-inner p {
+        max-width:100% !important;
+        font-size:14px !important;
+        line-height:1.65 !important;
+        overflow-wrap:break-word !important;
+      }
+      .home-hero-actions {
+        flex-direction:column !important;
+        align-items:stretch !important;
+      }
+      .home-hero-actions a,
+      section[style*="background:#f99d1c"] a,
+      section[style*="background:#004d62"] a {
+        box-sizing:border-box !important;
+        width:100% !important;
+        max-width:100% !important;
+        justify-content:center !important;
+      }
+      .home-video-frame {
+        width:100% !important;
+        max-width:100% !important;
+        box-sizing:border-box !important;
+        margin-top:8px !important;
+        border-radius:16px !important;
+        box-shadow:0 18px 48px rgba(0,0,0,0.22) !important;
+      }
+      .home-stats-inner {
+        box-sizing:border-box !important;
+        width:min(100%, 390px) !important;
+        max-width:390px !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        grid-template-columns:1fr !important;
+        gap:18px !important;
+        padding:30px 24px !important;
+        overflow:hidden !important;
+      }
+      .home-stats-inner > div {
+        min-width:0 !important;
+        max-width:100% !important;
+      }
+      .home-stats-inner > div > div:first-child {
+        font-size:clamp(22px, 7vw, 28px) !important;
+        line-height:1.05 !important;
+        overflow-wrap:anywhere !important;
+      }
+      .home-stats-inner > div > div:last-child {
+        font-size:12px !important;
+      }
+      .pathway-card {
+        border-radius:16px !important;
+        padding:22px !important;
+      }
+      .pathway-card__title {
+        font-size:22px !important;
+      }
+      [style*="height:160px"] {
+        height:190px !important;
+      }
+      [style*="padding:20px 24px 24px"] {
+        padding:22px !important;
+      }
+      #newsletter [style*="display:flex;gap:20px"] {
+        flex-direction:column !important;
+        gap:12px !important;
+      }
+      #newsletter form > div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns:1fr !important;
+      }
+    }
+
+    @media (max-width:767px) {
+      .sapc-navbar {
+        box-sizing:border-box !important;
+        width:min(100%, 390px) !important;
+        max-width:390px !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        padding:0 24px !important;
+        justify-content:space-between !important;
+      }
+      .sapc-navbar img {
+        height:34px !important;
+      }
+      .sapc-hamburger {
+        display:flex !important;
+        flex-shrink:0 !important;
+      }
     }
 
     /* Tablet 768-1023px (layout only) */
     @media (min-width:768px) and (max-width:1023px) {
+      [style*="max-width:1200px"] {
+        width:min(100% - 64px, 1200px) !important;
+      }
       [style*="grid-template-columns:repeat(3,1fr)"] {
         grid-template-columns:repeat(2,1fr) !important;
       }
       [style*="grid-column:2"] { grid-column:auto !important; }
       [style*="grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns:repeat(2,1fr) !important;
+      }
+      [style*="grid-template-columns:repeat(5,1fr)"] {
         grid-template-columns:repeat(2,1fr) !important;
       }
       [style*="padding:80px 48px"]   { padding:60px 32px !important; }
@@ -100,6 +428,31 @@ function getCurrentSlug() {
       [style*="gap:64px"] { gap:36px !important; }
       h1 { font-size:36px !important; }
       h2 { font-size:30px !important; }
+      section[style*="background:#004d62"] > div > div:nth-child(2) {
+        display:block !important;
+      }
+      section[style*="background:#004d62"] iframe {
+        width:100% !important;
+        aspect-ratio:16 / 9 !important;
+        height:auto !important;
+      }
+      .home-hero-inner {
+        grid-template-columns:1fr !important;
+        width:min(100% - 64px, 1200px) !important;
+        max-width:1200px !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+      }
+      section[style*="background:#004d62"] > div[style*="grid-template-columns:1fr 1fr"],
+      section[style*="border-bottom"] > div[style*="grid-template-columns:repeat(4,1fr)"] {
+        width:min(100% - 64px, 1200px) !important;
+        max-width:1200px !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+      }
+      section[style*="border-bottom"] > div[style*="grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns:repeat(2,1fr) !important;
+      }
     }
 
     /* Laptop 1024-1279px */
@@ -107,11 +460,51 @@ function getCurrentSlug() {
       [style*="padding:80px 48px"] { padding:72px 40px !important; }
       [style*="padding:64px 48px"] { padding:56px 40px !important; }
       [style*="gap:80px"] { gap:56px !important; }
+      [style*="max-width:1200px"] { width:min(100% - 64px, 1200px) !important; }
+      #sapc-desktop-nav { gap:22px !important; }
+      .sapc-navlink,
+      .sapc-svc-btn {
+        font-size:12px !important;
+      }
+      .sapc-book-cta {
+        padding:10px 18px !important;
+      }
+    }
+
+    /* Tablet landscape / small laptop */
+    @media (min-width:1024px) and (max-width:1180px) {
+      .sapc-navbar {
+        padding:0 28px !important;
+      }
+      #sapc-desktop-nav {
+        gap:18px !important;
+      }
+      .sapc-navbar img {
+        height:30px !important;
+      }
     }
 
     /* Widescreen >=1440px */
     @media (min-width:1440px) {
       [style*="max-width:1200px"] { max-width:1360px !important; }
+    }
+
+    @media (min-width:1680px) {
+      [style*="max-width:1200px"] { max-width:1440px !important; }
+      .home-hero-inner {
+        gap:72px !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration:0.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:0.01ms !important;
+      }
     }
 
     /* Mobile menu */
@@ -169,11 +562,11 @@ function getCurrentSlug() {
 // ==============================
 // NAVBAR SCROLL EFFECT
 // ==============================
-const getNavbar = () => document.querySelector('.sapc-navbar');
+const getNavbarHeader = () => document.querySelector('#shared-navbar header');
 window.addEventListener('scroll', () => {
-  const nav = getNavbar();
-  if (!nav) return;
-  nav.style.boxShadow = window.scrollY > 50 ? '0 2px 16px rgba(0,0,0,0.1)' : '0 1px 4px rgba(0,0,0,0.06)';
+  const header = getNavbarHeader();
+  if (!header) return;
+  header.style.boxShadow = window.scrollY > 50 ? '0 2px 16px rgba(0,0,0,0.1)' : '0 1px 4px rgba(0,0,0,0.06)';
 });
 
 // ==============================
@@ -283,7 +676,7 @@ function renderSharedNavbar() {
       <nav class="sapc-navbar" style="display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 48px;height:72px;">
 
         <a href="/" style="flex-shrink:0;line-height:0;">
-          <img src="logo@2x.png" alt="Supported Accommodation Providers Consultancy" style="height:32px;width:auto;">
+          <img src="${SAPC_ASSET_BASE}logo@2x.png" alt="Supported Accommodation Providers Consultancy" style="height:32px;width:auto;">
         </a>
 
         <!-- Desktop links -->
@@ -309,6 +702,7 @@ function renderSharedNavbar() {
               <a href="/nominated-individual-registered-service-manager-mentoring/">Nominated Individual &amp; RSM Mentoring</a>
               <a href="/professional-supervision/">Professional Supervision</a>
               <a href="/recording-templates/">Recording Templates Development</a>
+              <a href="/digital-marketing-automation/">Digital Marketing &amp; Automation</a>
             </div>
           </div>
 
@@ -347,6 +741,7 @@ function renderSharedNavbar() {
           <a href="/nominated-individual-registered-service-manager-mentoring/" class="sapc-mob-service">Nominated Individual &amp; RSM Mentoring</a>
           <a href="/professional-supervision/" class="sapc-mob-service">Professional Supervision</a>
           <a href="/recording-templates/" class="sapc-mob-service">Recording Templates</a>
+          <a href="/digital-marketing-automation/" class="sapc-mob-service">Digital Marketing &amp; Automation</a>
           <a href="/our-approach/">Our Approach</a>
           <a href="/ofsted-updates/">Ofsted Updates</a>
           <a href="/useful-links/">Useful Links</a>
@@ -427,7 +822,7 @@ function renderSharedFooter() {
         <div class="sapc-footer-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:48px;margin-bottom:48px;">
           <div>
             <a href="/" style="display:inline-block;margin-bottom:20px;line-height:0;">
-              <img src="logo@2x.png" alt="Supported Accommodation Providers Consultancy" style="height:36px;width:auto;">
+              <img src="${SAPC_ASSET_BASE}logo@2x.png" alt="Supported Accommodation Providers Consultancy" style="height:36px;width:auto;">
             </a>
             <p style="font:400 13px/1.7 'Manrope',sans-serif;color:#94a3b8;margin:0;">Empowering providers with precision consultancy and specialised compliance strategies for the supported accommodation sector across England.</p>
           </div>
@@ -445,6 +840,7 @@ function renderSharedFooter() {
               <li><a href="/nominated-individual-registered-service-manager-mentoring/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Nominated Individual &amp; RSM Mentoring</a></li>
               <li><a href="/professional-supervision/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Professional Supervision</a></li>
               <li><a href="/recording-templates/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Recording Templates</a></li>
+              <li><a href="/digital-marketing-automation/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Digital Marketing &amp; Automation</a></li>
             </ul>
           </div>
           <div>
@@ -731,6 +1127,168 @@ function initContactForm() {
   });
 }
 
+function initPathwayLotties(attempt = 0) {
+  const containers = document.querySelectorAll('[data-pathway-lottie]');
+  if (!containers.length) return;
+
+  if (!window.lottie) {
+    if (attempt < 10) setTimeout(() => initPathwayLotties(attempt + 1), 250);
+    return;
+  }
+
+  const colors = {
+    launch: '#0a94b2',
+    inspection: '#f97316',
+    monitoring: '#475569',
+    leadership: '#16a34a',
+    recovery: '#e11d48'
+  };
+
+  const hexToRgb = (hex) => {
+    const clean = hex.replace('#', '');
+    return [
+      parseInt(clean.slice(0, 2), 16) / 255,
+      parseInt(clean.slice(2, 4), 16) / 255,
+      parseInt(clean.slice(4, 6), 16) / 255,
+      1
+    ];
+  };
+
+  const animated = (start, end, mid = null) => {
+    const frames = [
+      { t: 0, s: start, e: mid || end },
+      { t: 45, s: mid || end, e: end },
+      { t: 90, s: end }
+    ];
+    return {
+      a: 1,
+      k: frames.map((frame) => ({
+        ...frame,
+        i: { x: [0.42], y: [1] },
+        o: { x: [0.58], y: [0] }
+      }))
+    };
+  };
+
+  const makeAnimation = (hex, name) => {
+    const color = hexToRgb(hex);
+    return {
+      v: '5.12.2',
+      fr: 30,
+      ip: 0,
+      op: 90,
+      w: 96,
+      h: 96,
+      nm: `SAPC ${name} pathway icon`,
+      ddd: 0,
+      assets: [],
+      layers: [
+        {
+          ddd: 0,
+          ind: 1,
+          ty: 4,
+          nm: 'rotating accent dot',
+          sr: 1,
+          ks: {
+            o: { a: 0, k: 100 },
+            r: animated([0], [360], [180]),
+            p: { a: 0, k: [48, 48, 0] },
+            a: { a: 0, k: [0, 0, 0] },
+            s: { a: 0, k: [100, 100, 100] }
+          },
+          ao: 0,
+          shapes: [{
+            ty: 'gr',
+            it: [
+              { ty: 'el', p: { a: 0, k: [0, -31] }, s: { a: 0, k: [11, 11] }, d: 1 },
+              { ty: 'fl', c: { a: 0, k: color }, o: { a: 0, k: 96 }, r: 1, bm: 0 },
+              { ty: 'tr', p: { a: 0, k: [0, 0] }, a: { a: 0, k: [0, 0] }, s: { a: 0, k: [100, 100] }, r: { a: 0, k: 0 }, o: { a: 0, k: 100 } }
+            ],
+            nm: 'dot',
+            bm: 0
+          }],
+          ip: 0,
+          op: 90,
+          st: 0,
+          bm: 0
+        },
+        {
+          ddd: 0,
+          ind: 2,
+          ty: 4,
+          nm: 'breathing halo',
+          sr: 1,
+          ks: {
+            o: animated([22], [8], [4]),
+            r: { a: 0, k: 0 },
+            p: { a: 0, k: [48, 48, 0] },
+            a: { a: 0, k: [0, 0, 0] },
+            s: animated([80, 80, 100], [118, 118, 100], [104, 104, 100])
+          },
+          ao: 0,
+          shapes: [{
+            ty: 'gr',
+            it: [
+              { ty: 'el', p: { a: 0, k: [0, 0] }, s: { a: 0, k: [54, 54] }, d: 1 },
+              { ty: 'fl', c: { a: 0, k: color }, o: { a: 0, k: 100 }, r: 1, bm: 0 },
+              { ty: 'tr', p: { a: 0, k: [0, 0] }, a: { a: 0, k: [0, 0] }, s: { a: 0, k: [100, 100] }, r: { a: 0, k: 0 }, o: { a: 0, k: 100 } }
+            ],
+            nm: 'halo',
+            bm: 0
+          }],
+          ip: 0,
+          op: 90,
+          st: 0,
+          bm: 0
+        },
+        {
+          ddd: 0,
+          ind: 3,
+          ty: 4,
+          nm: 'soft ring',
+          sr: 1,
+          ks: {
+            o: { a: 0, k: 78 },
+            r: animated([0], [-360], [-180]),
+            p: { a: 0, k: [48, 48, 0] },
+            a: { a: 0, k: [0, 0, 0] },
+            s: { a: 0, k: [100, 100, 100] }
+          },
+          ao: 0,
+          shapes: [{
+            ty: 'gr',
+            it: [
+              { ty: 'el', p: { a: 0, k: [0, 0] }, s: { a: 0, k: [66, 66] }, d: 1 },
+              { ty: 'st', c: { a: 0, k: color }, o: { a: 0, k: 54 }, w: { a: 0, k: 5 }, lc: 2, lj: 2, ml: 4, bm: 0 },
+              { ty: 'tm', s: { a: 0, k: 8 }, e: { a: 0, k: 72 }, o: { a: 0, k: 0 }, m: 1 },
+              { ty: 'tr', p: { a: 0, k: [0, 0] }, a: { a: 0, k: [0, 0] }, s: { a: 0, k: [100, 100] }, r: { a: 0, k: 0 }, o: { a: 0, k: 100 } }
+            ],
+            nm: 'ring',
+            bm: 0
+          }],
+          ip: 0,
+          op: 90,
+          st: 0,
+          bm: 0
+        }
+      ]
+    };
+  };
+
+  containers.forEach((container) => {
+    if (container.dataset.lottieReady === 'true') return;
+    const key = container.dataset.pathwayLottie;
+    container.dataset.lottieReady = 'true';
+    window.lottie.loadAnimation({
+      container,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      animationData: makeAnimation(colors[key] || '#0a94b2', key || 'default')
+    });
+  });
+}
+
 // ==============================
 // BOOT
 // ==============================
@@ -745,7 +1303,7 @@ function initContactForm() {
     "alternateName": "SAPC",
     "url": "https://www.sapconsultancy.co.uk",
     "logo": "https://www.sapconsultancy.co.uk/logo.svg",
-    "description": "Expert Ofsted compliance consultancy for supported accommodation providers across England. Registration support, mock inspections, monthly monitoring and more.",
+    "description": "Specialist Ofsted compliance, mock inspection and service-improvement consultancy for supported accommodation providers across England.",
     "telephone": "+44 7833 905183",
     "email": "support@sapconsultancy.co.uk",
     "address": {
@@ -757,7 +1315,7 @@ function initContactForm() {
     },
     "areaServed": {
       "@type": "Country",
-      "name": "United Kingdom"
+      "name": "England"
     },
     "sameAs": [],
     "openingHoursSpecification": {
@@ -781,6 +1339,7 @@ function initContactForm() {
     'nominated-individual-registered-service-manager-mentoring': { name: 'Nominated Individual & Registered Service Manager Mentoring Programme', desc: 'A practical 12-week mentoring programme for supported accommodation leaders new to managing an Ofsted-registered service.' },
     'professional-supervision': { name: 'Professional Supervision', desc: 'Structured professional supervision for supported accommodation staff as required under SA Regulations 2023.' },
     'recording-templates': { name: 'Recording Templates Development', desc: 'Bespoke Ofsted-compliant recording templates built for supported accommodation providers.' },
+    'digital-marketing-automation': { name: 'Digital Marketing & Automation', desc: 'Web development, email marketing, design, Google Business Profile marketing and automated lead workflow support for supported accommodation providers.' },
   };
 
   function addSchema(obj) {
@@ -799,7 +1358,7 @@ function initContactForm() {
       "name": serviceSchemas[page].name,
       "description": serviceSchemas[page].desc,
       "provider": { "@type": "Organization", "name": "Supported Accommodation Providers Consultancy" },
-      "areaServed": { "@type": "Country", "name": "United Kingdom" },
+      "areaServed": { "@type": "Country", "name": "England" },
       "serviceType": "Ofsted Compliance Consultancy"
     });
   }
@@ -829,16 +1388,31 @@ function initContactForm() {
   }
 })();
 
-window.addEventListener('load', () => {
+function initSapcSharedLayout() {
+  if (window.__sapcSharedLayoutReady) return;
+  window.__sapcSharedLayoutReady = true;
   renderSharedNavbar();
   renderSharedFooter();
+  applyLocalPreviewLinks(document);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSapcSharedLayout);
+} else {
+  initSapcSharedLayout();
+}
+
+window.addEventListener('load', () => {
+  initSapcSharedLayout();
   initAOS();
+  initPathwayLotties();
   initContactForm();
   initNewsletterPopup();
 });
 //  NEWSLETTER POPUP - appears on every page
 function initNewsletterPopup() {
   if (document.getElementById('contact-form')) return;
+  if (window.matchMedia('(max-width: 1279px)').matches) return;
 
   // Don't show if already subscribed or dismissed today
   const dismissed = localStorage.getItem('sapc_nl_dismissed');
@@ -968,7 +1542,7 @@ function initNewsletterPopup() {
     </div>
   `;
   document.body.appendChild(overlay);
-  setTimeout(() => overlay.classList.add('visible'), 6000);
+  setTimeout(() => overlay.classList.add('visible'), 30000);
   document.addEventListener('mouseleave', function onExit(e) {
     if (e.clientY < 10) {
       overlay.classList.add('visible');
@@ -1037,5 +1611,3 @@ function initNewsletterPopup() {
     }
   });
 }
-
-
