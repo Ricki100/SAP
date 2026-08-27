@@ -22,7 +22,7 @@
 
   function blogPostUrl(slug) {
     const inBlogDirectory = /\/blog(?:\/|$)/i.test(window.location.pathname);
-    const prefix = inBlogDirectory ? '' : 'blog/';
+    const prefix = inBlogDirectory ? '' : '/CMS/blog/';
     return `${prefix}post.html?slug=${encodeURIComponent(String(slug || '').trim())}`;
   }
 

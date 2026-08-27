@@ -78,7 +78,7 @@
     body { font-family: 'Manrope', sans-serif; }
     .filter-pill { cursor:pointer; transition: all 0.15s ease; }
     .filter-pill.active { background:#f99d1c; color:#fff; border-color:#f99d1c; }
-    [data-blog-index] { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    [data-blog-index] { grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; max-width:1080px; margin:0 auto; }
     [data-blog-index] .article-card { background:#fff; border-radius:14px; overflow:hidden; border:1px solid #f0f0f0; box-shadow:0 2px 16px rgba(10,148,178,0.06); }
     [data-blog-index] .article-card > a { display:block; height:200px; overflow:hidden; background:#e5e7eb; }
     [data-blog-index] .article-card-media { width:100%; height:100%; object-fit:cover; display:block; }
@@ -87,7 +87,8 @@
     [data-blog-index] .article-card h2 { font:700 16px/1.3 'Manrope',sans-serif; color:#111827; margin:0 0 10px; }
     [data-blog-index] .article-card h2 a { color:inherit; text-decoration:none; }
     [data-blog-index] .article-card-copy > p:last-child { font:400 13px/1.6 'Manrope',sans-serif; color:#6b7280; margin:0; }
-    @media (max-width:800px) { [data-blog-index] { grid-template-columns:1fr; } }
+    @media (max-width:1000px) { [data-blog-index] { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:680px) { [data-blog-index] { grid-template-columns:1fr; gap:20px; } }
   </style>
   <link rel="preload" as="image" href="img02.webp" fetchpriority="high"/>
   </head>
@@ -118,9 +119,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ARTICLE GRID -->
-<section style="background:#fff;padding-top:0;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 48px 80px;">
-    <div data-blog-index style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;">
+<section style="background:#fff;padding-top:56px;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 48px 56px;">
+    <div data-blog-index style="display:grid;gap:24px;max-width:1080px;margin:0 auto;">
       <p class="cms-empty">Loading articles...</p>
 
     </div>
