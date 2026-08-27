@@ -21,9 +21,7 @@
   }
 
   function blogPostUrl(slug) {
-    const inBlogDirectory = /\/blog(?:\/|$)/i.test(window.location.pathname);
-    const prefix = inBlogDirectory ? '' : '/CMS/blog/';
-    return `${prefix}post.html?slug=${encodeURIComponent(String(slug || '').trim())}`;
+    return `/blog/${encodeURIComponent(String(slug || '').trim())}/`;
   }
 
   function slugFromLocation() {
@@ -169,13 +167,13 @@
     try {
       const [item] = await fetchPublished('blog', { slug });
       if (!item) throw new Error('Not found');
-      document.title = `${item.seo_title || item.title} | Ricardo Chitagu`;
+      document.title = `${item.seo_title || item.title} | SAPC`;
       const description = document.querySelector('meta[name="description"]');
       if (description) description.content = item.seo_description || item.excerpt || '';
       let canonical = document.querySelector('link[rel="canonical"]');
       if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.append(canonical); }
-      canonical.href = `https://ricreations.co.za${blogPostUrl(item.slug)}`;
-      if (location.hostname === 'ricreations.co.za' && location.pathname.endsWith('/post.html')) history.replaceState({}, '', blogPostUrl(item.slug));
+      canonical.href = `https://www.sapconsultancy.co.uk${blogPostUrl(item.slug)}`;
+      if (location.pathname.endsWith('/post.html')) history.replaceState({}, '', blogPostUrl(item.slug));
       const related = (await fetchPublished('blog', { limit: 4 })).filter((post) => post.slug !== item.slug).slice(0, 3);
       article.innerHTML = `<header class="post-header"><p class="eyebrow">${escapeHtml((item.tags || []).join(' · ') || 'Insight')}</p><h1>${escapeHtml(item.title)}</h1><p class="post-deck">${escapeHtml(item.excerpt || '')}</p><time>${new Date(item.published_at).toLocaleDateString('en-ZW', { day: 'numeric', month: 'long', year: 'numeric' })}</time></header>
         <div class="post-lead-media">${mediaMarkup(item, 'post-media')}</div>

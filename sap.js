@@ -52,6 +52,7 @@ function cleanLegacyUrl() {
   const { pathname, search, hash } = window.location;
   let cleanPath = pathname;
 
+  if (/\/CMS\/blog\/post\.html$/i.test(cleanPath)) return;
   if (/\/index\.html$/i.test(cleanPath)) {
     cleanPath = cleanPath.replace(/\/index\.html$/i, '/');
   } else if (/\.html$/i.test(cleanPath)) {
