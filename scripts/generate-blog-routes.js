@@ -29,6 +29,12 @@ function rewrite(template, depth) {
   const prefix = '../'.repeat(depth);
   return template
     .replaceAll('../../sap.css', `${prefix}sap.css`)
+    .replaceAll('href="blog.css"', `href="${prefix}CMS/blog/blog.css"`)
+    .replaceAll('href="blog-enhancements.css"', `href="${prefix}CMS/blog/blog-enhancements.css"`)
+    .replaceAll('href="media-layout.css', `href="${prefix}CMS/blog/media-layout.css`)
+    .replaceAll('href="article-preview-theme.css', `href="${prefix}CMS/blog/article-preview-theme.css`)
+    .replaceAll('href="homepage-chrome.css', `href="${prefix}CMS/blog/homepage-chrome.css`)
+    .replaceAll('href="theme.css', `href="${prefix}CMS/blog/theme.css`)
     .replaceAll('../assets/js/', `${prefix}CMS/assets/js/`)
     .replaceAll('homepage-chrome.js', `${prefix}CMS/blog/homepage-chrome.js`)
     .replaceAll('brand-theme.js', `${prefix}CMS/blog/brand-theme.js`)

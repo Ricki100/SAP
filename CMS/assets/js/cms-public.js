@@ -24,6 +24,19 @@
     return `/blog/${encodeURIComponent(String(slug || '').trim())}/`;
   }
 
+  function blogPageUrl(page) {
+    const params = new URLSearchParams(location.search);
+    if (page > 1) params.set('page', String(page));
+    else params.delete('page');
+    const query = params.toString();
+    return `${location.pathname}${query ? `?${query}` : ''}${location.hash || ''}`;
+  }
+
+  function requestedBlogPage() {
+    const page = Number.parseInt(new URLSearchParams(location.search).get('page') || '1', 10);
+    return Number.isFinite(page) && page > 0 ? page : 1;
+  }
+
   function slugFromLocation() {
     const legacySlug = new URLSearchParams(location.search).get('slug');
     if (legacySlug) return legacySlug;
@@ -89,9 +102,13 @@
   async function fetchPublished(type, options = {}) {
     const client = await getClient();
     if (!client) return [];
-    let query = client.from('content_items').select('*').eq('type', type).eq('status', 'published')
-      .order('featured', { ascending: false }).order('sort_order', { ascending: true })
-      .order('published_at', { ascending: false });
+    let query = client.from('content_items').select('*').eq('type', type).eq('status', 'published');
+    if (options.latestFirst) {
+      query = query.order('published_at', { ascending: false }).order('updated_at', { ascending: false });
+    } else {
+      query = query.order('featured', { ascending: false }).order('sort_order', { ascending: true })
+        .order('published_at', { ascending: false });
+    }
     if (options.slug) query = query.eq('slug', options.slug).limit(1);
     if (options.limit) query = query.limit(options.limit);
     const { data, error } = await query;
@@ -151,11 +168,36 @@
     if (!grid) return;
     if (!configured) { grid.innerHTML = '<p class="cms-empty">Connect Supabase to publish your first article.</p>'; return; }
     try {
-      const posts = await fetchPublished('blog');
-      grid.innerHTML = posts.length ? posts.map((item) => `<article class="article-card">
+      const posts = await fetchPublished('blog', { latestFirst: true });
+      const pageSize = Number.parseInt(grid.dataset.blogPageSize || '3', 10) || 3;
+      const pageCount = Math.max(1, Math.ceil(posts.length / pageSize));
+      const currentPage = Math.min(requestedBlogPage(), pageCount);
+      const pagePosts = posts.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+      grid.innerHTML = pagePosts.length ? pagePosts.map((item) => `<article class="article-card">
         <a href="${blogPostUrl(item.slug)}">${cardMediaMarkup(item, 'article-card-media')}</a>
         <div class="article-card-copy"><p class="eyebrow">${escapeHtml((item.tags || [])[0] || 'Insight')}</p><h2><a href="${blogPostUrl(item.slug)}">${escapeHtml(item.title)}</a></h2><p>${escapeHtml(item.excerpt || '')}</p></div>
       </article>`).join('') : '<p class="cms-empty">New articles are coming soon.</p>';
+      activateMediaFallbacks(grid);
+      let pager = grid.nextElementSibling?.classList?.contains('blog-pagination') ? grid.nextElementSibling : null;
+      if (!pager) {
+        pager = document.createElement('nav');
+        pager.className = 'blog-pagination';
+        pager.setAttribute('aria-label', 'Blog pagination');
+        grid.insertAdjacentElement('afterend', pager);
+      }
+      pager.hidden = pageCount <= 1;
+      if (pageCount > 1) {
+        const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
+        pager.innerHTML = `
+          ${currentPage > 1 ? `<a class="blog-page-link blog-page-link--step" href="${blogPageUrl(currentPage - 1)}">Previous</a>` : '<span class="blog-page-link blog-page-link--step is-disabled">Previous</span>'}
+          <span class="blog-page-numbers">
+            ${pages.map((page) => page === currentPage
+              ? `<span class="blog-page-link is-current" aria-current="page">${page}</span>`
+              : `<a class="blog-page-link" href="${blogPageUrl(page)}">${page}</a>`).join('')}
+          </span>
+          ${currentPage < pageCount ? `<a class="blog-page-link blog-page-link--step" href="${blogPageUrl(currentPage + 1)}">Next</a>` : '<span class="blog-page-link blog-page-link--step is-disabled">Next</span>'}
+        `;
+      }
     } catch (_) { grid.innerHTML = '<p class="cms-empty">Articles are temporarily unavailable.</p>'; }
   }
 
