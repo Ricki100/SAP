@@ -907,7 +907,7 @@ button {
   justify-content: center;
   gap: 12px;
   width: min(100% - 32px, 1080px);
-  margin: 34px auto clamp(54px, 7vw, 90px);
+  margin: 34px auto 0;
 }
 
 .blog-page-numbers {
