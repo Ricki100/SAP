@@ -104,7 +104,8 @@
     if (!client) return [];
     let query = client.from('content_items').select('*').eq('type', type).eq('status', 'published');
     if (options.latestFirst) {
-      query = query.order('published_at', { ascending: false }).order('updated_at', { ascending: false });
+      query = query.order('published_at', { ascending: false }).order('sort_order', { ascending: true })
+        .order('title', { ascending: true });
     } else {
       query = query.order('featured', { ascending: false }).order('sort_order', { ascending: true })
         .order('published_at', { ascending: false });
@@ -145,7 +146,7 @@
     const track = document.querySelector('[data-cms-blog-grid]');
     if (!section || !track || !configured) return;
     try {
-      const posts = await fetchPublished('blog', { limit: 6 });
+      const posts = await fetchPublished('blog', { limit: 6, latestFirst: true });
       if (!posts.length) return;
       const cards = posts.map((item) => `<a class="blog-card" href="${blogPostUrl(item.slug)}">
         ${cardMediaMarkup(item, 'blog-card-img')}
@@ -216,7 +217,7 @@
       if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.append(canonical); }
       canonical.href = `https://www.sapconsultancy.co.uk${blogPostUrl(item.slug)}`;
       if (location.pathname.endsWith('/post.html')) history.replaceState({}, '', blogPostUrl(item.slug));
-      const related = (await fetchPublished('blog', { limit: 4 })).filter((post) => post.slug !== item.slug).slice(0, 3);
+      const related = (await fetchPublished('blog', { limit: 4, latestFirst: true })).filter((post) => post.slug !== item.slug).slice(0, 3);
       article.innerHTML = `<header class="post-header"><p class="eyebrow">${escapeHtml((item.tags || []).join(' · ') || 'Insight')}</p><h1>${escapeHtml(item.title)}</h1><p class="post-deck">${escapeHtml(item.excerpt || '')}</p><time>${new Date(item.published_at).toLocaleDateString('en-ZW', { day: 'numeric', month: 'long', year: 'numeric' })}</time></header>
         <div class="post-lead-media">${mediaMarkup(item, 'post-media')}</div>
         <div class="post-body">${sanitiseRichText(item.body_html)}</div>
