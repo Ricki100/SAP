@@ -92,7 +92,43 @@
   </url>
 
 
+
   <!-- BLOG_ROUTES_START -->
+  <url>
+    <loc>https://www.sapconsultancy.co.uk/blog/ofsted-is-consulting-on-major-social-care-inspection-changes-what-providers-need-to-know-before-28-september/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.sapconsultancy.co.uk/blog/830-cases-in-one-year-what-ofsteds-latest-regulatory-data-tells-supported-accommodation-providers/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.sapconsultancy.co.uk/blog/only-17-had-a-published-full-inspection-outcome-what-providers-should-take-from-ofsteds-2026-data/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.sapconsultancy.co.uk/blog/regional-care-cooperatives-are-expanding-what-could-this-mean-for-supported-accommodation-providers/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.sapconsultancy.co.uk/blog/independence-should-not-mean-isolation-what-dfes-enduring-relationships-strategy-means-for-supported-accommodation/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.sapconsultancy.co.uk/blog/care-leaver-local-offer-changes-on-30-september-2026-why-supported-accommodation-providers-should-pay-attention/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.sapconsultancy.co.uk/blog/supported-accommodation-grew-37-in-one-year-what-that-means-for-providers/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <url>
     <loc>https://www.sapconsultancy.co.uk/blog/ofsteds-new-enforcement-power-what-supported-accommodation-providers-need-to-know/</loc>
     <changefreq>weekly</changefreq>
