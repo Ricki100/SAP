@@ -714,7 +714,7 @@ function renderSharedNavbar() {
         </div>
 
         <div style="display:flex;align-items:center;gap:12px;">
-          <a href="/contact/" class="sapc-book-cta" style="background:#f99d1c;color:#111827;padding:10px 22px;border-radius:8px;font:700 13px/1 'Manrope',sans-serif;text-decoration:none;white-space:nowrap;transition:background 0.2s;" onmouseover="this.style.background='#e08a0d'" onmouseout="this.style.background='#f99d1c'">
+          <a href="/ofsted-readiness-call/" class="sapc-book-cta" style="background:#f99d1c;color:#111827;padding:10px 22px;border-radius:8px;font:700 13px/1 'Manrope',sans-serif;text-decoration:none;white-space:nowrap;transition:background 0.2s;" onmouseover="this.style.background='#e08a0d'" onmouseout="this.style.background='#f99d1c'">
             Book Consultation
           </a>
           <button class="sapc-hamburger" id="sapc-hamburger" aria-label="Toggle menu" style="flex-direction:column;justify-content:center;align-items:flex-end;gap:5px;cursor:pointer;background:none;border:none;padding:6px;width:40px;height:40px;">
@@ -747,7 +747,7 @@ function renderSharedNavbar() {
           <a href="/ofsted-updates/">Ofsted Updates</a>
           <a href="/useful-links/">Useful Links</a>
           <a href="/contact/">Contact</a>
-          <a href="/contact/" class="sapc-mob-cta">Book Consultation</a>
+          <a href="/ofsted-readiness-call/" class="sapc-mob-cta">Book Consultation</a>
         </div>
       </div>
     </header>
