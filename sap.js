@@ -587,7 +587,8 @@ document.addEventListener('click', function(e) {
 // ==============================
 $$('.faq-item').forEach(item => {
   const header = item.querySelector('.faq-question');
-  if (!header) return;
+  // Pages that toggle inline (onclick) would otherwise toggle twice and never open.
+  if (!header || header.hasAttribute('onclick')) return;
   header.addEventListener('click', () => item.classList.toggle('active'));
 });
 
