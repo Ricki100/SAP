@@ -1413,6 +1413,7 @@ window.addEventListener('load', () => {
   initAOS();
   initPathwayLotties();
   initContactForm();
+  initWhatsAppHandoff();
   initNewsletterPopup();
 });
 //  NEWSLETTER POPUP - appears on every page
@@ -1615,5 +1616,50 @@ function initNewsletterPopup() {
       fb.style.border = ok ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(239,68,68,0.3)';
       fb.textContent = msg;
     }
+  });
+}
+
+// ==============================
+// OPTIONAL WHATSAPP HANDOFF (contact + readiness call forms)
+// Adds an opt-in tick-box. The form still submits to Web3Forms and the
+// thank-you page as normal; if ticked, WhatsApp also opens in a new tab
+// with the visitor's details pre-filled.
+// ==============================
+const SAPC_WHATSAPP_NUMBER = '447833905183';
+function initWhatsAppHandoff() {
+  const form = document.getElementById('contact-form');
+  if (!form || form.dataset.waReady === '1') return;
+  form.dataset.waReady = '1';
+
+  const anchor = document.getElementById('contact-form-feedback') || document.getElementById('contact-form-submit');
+  if (!anchor) return;
+  const wrap = document.createElement('label');
+  wrap.setAttribute('for', 'wa-handoff');
+  wrap.style.cssText = 'display:flex;gap:10px;align-items:flex-start;margin:0 0 18px;padding:12px 14px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;cursor:pointer;';
+  wrap.innerHTML = '<input type="checkbox" id="wa-handoff" style="width:18px;height:18px;margin-top:1px;flex-shrink:0;accent-color:#25D366;cursor:pointer;"/>'
+    + '<span style="font:400 13px/1.5 \'Manrope\',sans-serif;color:#374151;">Also open <strong style="color:#111827;">WhatsApp</strong> with these details so I can message SAPC directly <span style="color:#9ca3af;">(optional)</span></span>';
+  anchor.parentNode.insertBefore(wrap, anchor);
+
+  const val = (name) => {
+    const el = form.querySelector('[name="' + name + '"]');
+    return el ? String(el.value || '').trim() : '';
+  };
+  const buildMessage = () => {
+    const service = val('stage') ? '' : val('serviceRequired');
+    const lines = ['Hi SAPC, I have just sent an enquiry on your website.', ''];
+    [['Name', val('name')], ['Organisation', val('organisation')], ['Email', val('email')], ['Phone', val('phone')],
+     ['Service', service], ['Stage', val('stage')], ['Best time to call', val('preferredTime')]]
+      .forEach(([k, v]) => { if (v) lines.push(k + ': ' + v); });
+    if (val('message')) lines.push('', val('message'));
+    return lines.join('\n');
+  };
+
+  form.addEventListener('submit', () => {
+    const box = document.getElementById('wa-handoff');
+    if (!box || !box.checked || form.dataset.waOpened === '1') return;
+    form.dataset.waOpened = '1';
+    try {
+      window.open('https://wa.me/' + SAPC_WHATSAPP_NUMBER + '?text=' + encodeURIComponent(buildMessage()), '_blank', 'noopener');
+    } catch (err) { /* WhatsApp is optional - the form still submits */ }
   });
 }
