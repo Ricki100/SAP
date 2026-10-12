@@ -861,13 +861,15 @@ function renderSharedFooter() {
               <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">language</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">www.sapconsultancy.co.uk</span></li>
               <li style="display:flex;align-items:center;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;">phone</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">+44 7833 905183</span></li>
               <li style="display:flex;align-items:flex-start;gap:10px;"><span class="material-symbols-outlined" style="font-size:18px;color:#f99d1c;flex-shrink:0;margin-top:2px;">location_on</span><span style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;">Suite B, Sapphire House,<br>Roundtree Way, Norwich, NR7 8SQ</span></li>
+              <li style="display:flex;align-items:center;gap:10px;"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink:0;fill:#f99d1c;"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg><a href="https://www.facebook.com/reg44services" target="_blank" rel="noopener" style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Facebook</a></li>
+              <li style="display:flex;align-items:center;gap:10px;"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink:0;fill:#f99d1c;"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg><a href="https://www.linkedin.com/company/supported-accomodation-providers-consultancy/" target="_blank" rel="noopener" style="font:400 13px/1.4 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">LinkedIn</a></li>
             </ul>
           </div>
         </div>
         <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-          <span style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#475569;">(c) 2025 Supported Accommodation Providers Consultancy. All rights reserved.</span>
+          <span style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#475569;">(c) ${new Date().getFullYear()} Supported Accommodation Providers Consultancy. All rights reserved.</span>
           <div style="display:flex;gap:24px;flex-wrap:wrap;">
-            <a href="#" style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#64748b;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Privacy Policy</a>
+            <a href="/privacy-policy/" style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#64748b;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Privacy Policy</a>
             <a href="#" style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#64748b;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Terms &amp; Conditions</a>
             <a href="#" style="font:400 11px/1 'Manrope',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#64748b;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Cookie Settings</a>
           </div>
@@ -1318,7 +1320,10 @@ function initPathwayLotties(attempt = 0) {
       "@type": "Country",
       "name": "England"
     },
-    "sameAs": [],
+    "sameAs": [
+      "https://www.facebook.com/reg44services",
+      "https://www.linkedin.com/company/supported-accomodation-providers-consultancy/"
+    ],
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
