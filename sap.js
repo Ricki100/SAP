@@ -715,6 +715,7 @@ function renderSharedNavbar() {
         </div>
 
         <div style="display:flex;align-items:center;gap:12px;">
+          <div class="sapc-socials" style="display:flex;align-items:center;gap:4px;"><a href="https://www.facebook.com/reg44services" target="_blank" rel="noopener" class="sapc-social" aria-label="SAPC on Facebook" title="SAPC on Facebook"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg></a><a href="https://www.linkedin.com/company/supported-accomodation-providers-consultancy/" target="_blank" rel="noopener" class="sapc-social" aria-label="SAPC on LinkedIn" title="SAPC on LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg></a></div>
           <a href="/ofsted-readiness-call/" class="sapc-book-cta" style="background:#f99d1c;color:#111827;padding:10px 22px;border-radius:8px;font:700 13px/1 'Manrope',sans-serif;text-decoration:none;white-space:nowrap;transition:background 0.2s;" onmouseover="this.style.background='#e08a0d'" onmouseout="this.style.background='#f99d1c'">
             Book Consultation
           </a>
@@ -762,6 +763,14 @@ function renderSharedNavbar() {
         #sapc-hamburger { display:none !important; }
       }
       .sapc-navlink:hover { color:#0a94b2 !important; }
+      .sapc-social { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; color:#004d62; fill:currentColor; transition:background 0.2s,color 0.2s; }
+      .sapc-social svg { fill:currentColor; }
+      .sapc-social:hover { background:#f0f9fb; color:#0a94b2; }
+      .sapc-social:focus-visible { outline:2px solid #0a94b2; outline-offset:2px; }
+      .sapc-social { flex-shrink:0; }
+      .sapc-navlink, .sapc-svc-btn { white-space:nowrap; }
+      @media (min-width:1024px) and (max-width:1279px) { .sapc-social { width:28px; height:28px; } .sapc-socials { gap:0 !important; } }
+      @media (min-width:1024px) and (max-width:1120px) { .sapc-socials { display:none !important; } }
     </style>
   `;
 
