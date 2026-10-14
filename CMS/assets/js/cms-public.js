@@ -205,8 +205,12 @@
   async function renderBlogPost() {
     const article = document.querySelector('[data-blog-post]');
     if (!article) return;
+    const hasStaticContent = article.dataset.staticRendered === 'true';
     const slug = slugFromLocation();
-    if (!configured || !slug) { article.innerHTML = '<p class="cms-empty">Article not found.</p>'; return; }
+    if (!configured || !slug) {
+      if (!hasStaticContent) article.innerHTML = '<p class="cms-empty">Article not found.</p>';
+      return;
+    }
     try {
       const [item] = await fetchPublished('blog', { slug });
       if (!item) throw new Error('Not found');
@@ -222,7 +226,9 @@
         <div class="post-lead-media">${mediaMarkup(item, 'post-media')}</div>
         <div class="post-body">${sanitiseRichText(item.body_html)}</div>
         ${related.length ? `<aside class="related-posts"><div class="related-posts-header"><h2>Keep reading</h2><a href="/blog/">View all articles</a></div><div class="related-posts-grid">${related.map((post) => `<a class="related-post-card" href="${blogPostUrl(post.slug)}">${cardMediaMarkup(post, 'related-post-media')}<span>${escapeHtml(post.title)}</span></a>`).join('')}</div></aside>` : ''}`;
-    } catch (_) { article.innerHTML = '<p class="cms-empty">This article could not be found.</p>'; }
+    } catch (_) {
+      if (!hasStaticContent) article.innerHTML = '<p class="cms-empty">This article could not be found.</p>';
+    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
