@@ -314,6 +314,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<!-- LATEST INSIGHTS -->
+<style>
+  #latest-insights .carousel-set { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  #latest-insights .blog-card { display: block; background: #fff; border: 1px solid #e4eef0; border-radius: 12px; overflow: hidden; text-decoration: none; box-shadow: 0 6px 20px rgba(10,77,98,0.06); }
+  #latest-insights .blog-card-img, #latest-insights .blog-card-img-ph { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #e8f1f3; }
+  #latest-insights .blog-card-body { padding: 22px 22px 25px; }
+  #latest-insights .blog-card-meta { font: 700 11px/1.2 'Manrope', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #0797b4; margin-bottom: 10px; }
+  #latest-insights .blog-card-meta span { color: #7c8c91; margin-left: 8px; letter-spacing: 0; text-transform: none; }
+  #latest-insights .blog-card-title { font: 800 20px/1.25 'Manrope', sans-serif; color: #111827; }
+  @media (max-width: 760px) {
+    #latest-insights { padding: 60px 20px !important; }
+    #latest-insights > div > div:first-child { display: block !important; }
+    #latest-insights h2 { font-size: 30px !important; margin-bottom: 20px !important; }
+    #latest-insights [data-cms-blog-grid] { grid-template-columns: 1fr !important; }
+    #latest-insights .carousel-set { grid-template-columns: 1fr; gap: 20px; }
+    #latest-insights [data-cms-blog-grid] > .carousel-set[aria-hidden="true"] { display: none; }
+  }
+</style>
+<section id="latest-insights" data-cms-blog style="background:#f7fbfc;padding:84px 48px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:32px;">
+      <div><p style="font:700 11px/1 'Manrope',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#f99d1c;margin:0 0 14px;">Latest insights</p><h2 style="font:800 40px/1.15 'Manrope',sans-serif;color:#111827;margin:0;">Stay ready for what Ofsted is looking at next.</h2></div>
+      <a href="/blog/" style="display:inline-flex;align-items:center;white-space:nowrap;padding:13px 20px;border-radius:6px;background:#004d62;color:#fff;font:700 13px/1 'Manrope',sans-serif;text-decoration:none;">View all insights</a>
+    </div>
+    <div data-cms-blog-grid style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;">
+      <a href="/blog/830-cases-in-one-year-what-ofsteds-latest-regulatory-data-tells-supported-accommodation-providers/" style="display:block;background:#fff;border:1px solid #e4eef0;border-radius:12px;overflow:hidden;text-decoration:none;box-shadow:0 6px 20px rgba(10,77,98,0.06);"><img src="https://hnhnyivqcaesnlpuuuka.supabase.co/storage/v1/object/public/cms-media/images/2026-09-07/ec5cc0f1-c509-450e-acf6-6cc75774addb-chatgpt-image-sep-7-2026-07-08-21-am.png" alt="Ofsted regulatory activity data" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;"><div style="padding:22px 22px 25px;"><p style="font:700 11px/1.2 'Manrope',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#0797b4;margin:0 0 10px;">Regulatory activity</p><h3 style="font:800 20px/1.25 'Manrope',sans-serif;color:#111827;margin:0 0 10px;">830 Cases in One Year: What Ofsted’s Latest Regulatory Data Tells Supported Accommodation Providers</h3><p style="font:400 14px/1.6 'Manrope',sans-serif;color:#6b7280;margin:0;">What the latest regulatory activity figures mean for providers and leaders.</p></div></a>
+      <a href="/blog/ofsted-is-consulting-on-major-social-care-inspection-changes-what-providers-need-to-know-before-28-september/" style="display:block;background:#fff;border:1px solid #e4eef0;border-radius:12px;overflow:hidden;text-decoration:none;box-shadow:0 6px 20px rgba(10,77,98,0.06);"><img src="https://hnhnyivqcaesnlpuuuka.supabase.co/storage/v1/object/public/cms-media/images/2026-09-07/11726563-c086-4a44-90ff-338f9d6b3067-chatgpt-image-sep-7-2026-07-03-46-am.png" alt="Ofsted inspection consultation" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;"><div style="padding:22px 22px 25px;"><p style="font:700 11px/1.2 'Manrope',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#0797b4;margin:0 0 10px;">Ofsted consultation</p><h3 style="font:800 20px/1.25 'Manrope',sans-serif;color:#111827;margin:0 0 10px;">Ofsted Is Consulting on Major Social Care Inspection Changes</h3><p style="font:400 14px/1.6 'Manrope',sans-serif;color:#6b7280;margin:0;">The proposed inspection changes providers need to understand before September.</p></div></a>
+      <a href="/blog/only-17-had-a-published-full-inspection-outcome-what-providers-should-take-from-ofsteds-2026-data/" style="display:block;background:#fff;border:1px solid #e4eef0;border-radius:12px;overflow:hidden;text-decoration:none;box-shadow:0 6px 20px rgba(10,77,98,0.06);"><img src="https://hnhnyivqcaesnlpuuuka.supabase.co/storage/v1/object/public/cms-media/images/2026-09-07/8bc04894-97f8-4cde-ba65-3c4fed3f9b01-chatgpt-image-sep-7-2026-07-14-57-am.png" alt="Supported accommodation inspection outcomes" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;"><div style="padding:22px 22px 25px;"><p style="font:700 11px/1.2 'Manrope',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#0797b4;margin:0 0 10px;">Inspection outcomes</p><h3 style="font:800 20px/1.25 'Manrope',sans-serif;color:#111827;margin:0 0 10px;">Only 17% Had a Published Full Inspection Outcome</h3><p style="font:400 14px/1.6 'Manrope',sans-serif;color:#6b7280;margin:0;">What Ofsted’s 2026 data should prompt providers to review now.</p></div></a>
+    </div>
+  </div>
+</section>
+
 <!-- WHY PROVIDERS TRUST US -->
 <section style="background:#fff;">
   <div style="max-width:1200px;margin:0 auto;padding:80px 48px;">
@@ -533,6 +565,9 @@ document.getElementById('sapc-newsletter-form').addEventListener('submit', async
 </script>
 
 <div id="shared-footer"></div>
-<script src="sap.js?v=20261012c"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
+<script src="CMS/assets/js/supabase-config.js?v=20260827-1"></script>
+<script src="CMS/assets/js/cms-public.js?v=20261014-blog-static"></script>
+<script src="sap.js?v=20261014g"></script>
 </body>
 </html>
