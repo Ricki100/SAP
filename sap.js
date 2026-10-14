@@ -747,6 +747,7 @@ function renderSharedNavbar() {
           <a href="/digital-marketing-automation/" class="sapc-mob-service">Digital Marketing &amp; Automation</a>
           <a href="/our-approach/">Our Approach</a>
           <a href="/ofsted-updates/">Ofsted Updates</a>
+          <a href="/guides/">Provider Guides</a>
           <a href="/useful-links/">Useful Links</a>
           <a href="/contact/">Contact</a>
           <a href="/ofsted-readiness-call/" class="sapc-mob-cta">Book Consultation</a>
@@ -860,6 +861,7 @@ function renderSharedFooter() {
               <li><a href="/about-us/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">About Us</a></li>
               <li><a href="/our-approach/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Our Approach</a></li>
               <li><a href="/ofsted-updates/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Ofsted Updates</a></li>
+              <li><a href="/guides/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Provider Guides</a></li>
               <li><a href="/useful-links/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Useful Links</a></li>
               <li><a href="/contact/" style="font:400 13px/1 'Manrope',sans-serif;color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Contact Us</a></li>
             </ul>
