@@ -462,6 +462,7 @@ document.getElementById('sapc-newsletter-form').addEventListener('submit', async
     body.append('email',email);body.append('first_name',fname);body.append('last_name',lname);body.append('role',role);body.append('consent',consent?'yes':'no');body.append('source','useful_links_newsletter');body.append('page',window.location.href);body.append('submitted_at',new Date().toISOString());
     await fetch(MAKE_NEWSLETTER_WEBHOOK_URL,{method:'POST',mode:'no-cors',body});
     showFeedback("OK You're subscribed! Welcome to the SAPC community.",true);document.getElementById('sapc-newsletter-form').reset();
+    if (window.sapcTrack) window.sapcTrack('sign_up', { method: 'newsletter_inline' });
   }catch(err){showFeedback('Network error. Please try again shortly.',false);}
   finally{btn.disabled=false;btn.textContent="Subscribe - It's Free";}
   function showFeedback(msg,success){fb.style.display='block';fb.style.background=success?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)';fb.style.color=success?'#86efac':'#fca5a5';fb.style.border=success?'1px solid rgba(34,197,94,0.3)':'1px solid rgba(239,68,68,0.3)';fb.textContent=msg;}
@@ -485,7 +486,7 @@ document.getElementById('sapc-newsletter-form').addEventListener('submit', async
   </div>
 </section>
 <div id="shared-footer"></div>
-<script src="sap.js?v=20261014g"></script>
+<script src="sap.js?v=20261015"></script>
 
 </body>
 </html>

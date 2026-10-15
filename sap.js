@@ -1406,6 +1406,74 @@ function initPathwayLotties(attempt = 0) {
   }
 })();
 
+// ==============================
+// SAPC TRACKING (GA4 G-QY5KMSMW9H via gtag + Meta Pixel when present)
+// - whatsapp_click / phone_click / email_click on any tel:, wa.me and mailto: link
+// - generate_lead (+ Meta "Lead") only on the thank-you page AND only after a real
+//   form submit in this tab, so refreshes or direct visits never count as leads
+// - sign_up for newsletter forms (called from the newsletter handlers)
+// ==============================
+(function () {
+  if (window.sapcTrack) return;
+  const LEAD_KEY = 'sapc_pending_lead';
+  const send = (name, params) => {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', name, Object.assign({ transport_type: 'beacon' }, params || {}));
+      } else {
+        (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params || {}));
+      }
+    } catch (err) { /* tracking must never break the page */ }
+  };
+  const meta = (name, params) => {
+    try { if (typeof window.fbq === 'function') window.fbq('track', name, params || {}); } catch (err) { /* ignore */ }
+  };
+  window.sapcTrack = send;
+
+  // Contact links
+  document.addEventListener('click', (event) => {
+    const link = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+    if (!link) return;
+    const href = link.getAttribute('href') || '';
+    const type = /^tel:/i.test(href) ? 'phone_click'
+      : /wa\.me|whatsapp\.com/i.test(href) ? 'whatsapp_click'
+      : /^mailto:/i.test(href) ? 'email_click' : '';
+    if (!type) return;
+    send(type, { link_url: href, page_path: location.pathname });
+    meta('Contact', { method: type.replace('_click', '') });
+  }, true);
+
+  // Enquiry forms (contact page + readiness call) submit natively to Web3Forms,
+  // which redirects to /thank-you/. Remember the submit so the thank-you page can count it.
+  document.addEventListener('submit', (event) => {
+    const form = event.target;
+    if (!form || form.id !== 'contact-form') return;
+    const bot = form.querySelector('[name="botcheck"]');
+    if (bot && bot.checked) return;
+    const field = (name) => { const el = form.querySelector('[name="' + name + '"]'); return el ? String(el.value || '').trim() : ''; };
+    const formType = /readiness/i.test(field('serviceRequired')) || location.pathname.indexOf('ofsted-readiness-call') !== -1
+      ? 'readiness_call' : 'contact_form';
+    const wa = document.getElementById('wa-handoff');
+    const pending = { form_type: formType, service: field('serviceRequired') || field('stage') || '', whatsapp_handoff: !!(wa && wa.checked), page_path: location.pathname, ts: Date.now() };
+    try { sessionStorage.setItem(LEAD_KEY, JSON.stringify(pending)); } catch (err) { /* ignore */ }
+    send('enquiry_form_submit', { form_type: formType });
+  }, true);
+
+  // Thank-you page: count the lead once
+  if (/^\/thank-you(\/|\.html)?$/.test(location.pathname)) {
+    let pending = null;
+    try { pending = JSON.parse(sessionStorage.getItem(LEAD_KEY) || 'null'); sessionStorage.removeItem(LEAD_KEY); } catch (err) { pending = null; }
+    if (pending && Date.now() - (pending.ts || 0) < 60 * 60 * 1000) {
+      const fire = () => {
+        send('generate_lead', { form_type: pending.form_type, service: pending.service, whatsapp_handoff: pending.whatsapp_handoff, source_page: pending.page_path });
+        meta('Lead', { content_name: pending.form_type });
+      };
+      // fbq/gtag stubs exist from the page head, so firing now queues correctly
+      fire();
+    }
+  }
+})();
+
 function initSapcSharedLayout() {
   if (window.__sapcSharedLayoutReady) return;
   window.__sapcSharedLayoutReady = true;
@@ -1614,6 +1682,7 @@ function initNewsletterPopup() {
       });
 
       showFb('Welcome! You\'re now subscribed.', true);
+      if (window.sapcTrack) window.sapcTrack('sign_up', { method: 'newsletter_popup' });
       localStorage.setItem('sapc_nl_subscribed','1');
       setTimeout(closePopup, 2200);
     } catch(err) {

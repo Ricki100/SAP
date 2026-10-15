@@ -547,6 +547,7 @@ document.getElementById('sapc-newsletter-form').addEventListener('submit', async
 
     showFeedback('OK You\'re subscribed! Welcome to the SAPC community.', true);
     document.getElementById('sapc-newsletter-form').reset();
+    if (window.sapcTrack) window.sapcTrack('sign_up', { method: 'newsletter_inline' });
   } catch(err) {
     showFeedback('Network error. Please try again shortly.', false);
   } finally {
@@ -568,6 +569,6 @@ document.getElementById('sapc-newsletter-form').addEventListener('submit', async
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 <script src="CMS/assets/js/supabase-config.js?v=20260827-1"></script>
 <script src="CMS/assets/js/cms-public.js?v=20261014-blog-static"></script>
-<script src="sap.js?v=20261014g"></script>
+<script src="sap.js?v=20261015"></script>
 </body>
 </html>
