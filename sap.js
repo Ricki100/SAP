@@ -1407,6 +1407,34 @@ function initPathwayLotties(attempt = 0) {
 })();
 
 // ==============================
+// ENQUIRY EMAIL CAPTURE (contact + readiness call forms)
+// - Adds an optional, unticked "email me updates" box. Its value (marketing_consent=yes)
+//   also travels in the Web3Forms email, so the inbox shows who opted in.
+// - If ticked, the person is also sent to the newsletter webhook (consent: yes).
+// - If SAPC_ENQUIRY_WEBHOOK_URL is set, EVERY enquiry is also sent there
+//   (with marketing_consent yes/no), e.g. a dedicated Make "SAPC enquiries" scenario.
+// ==============================
+const SAPC_NEWSLETTER_WEBHOOK_URL = 'https://hook.eu1.make.com/zo5d8tdps58d29y91ddsrh3odcvtqgyp';
+const SAPC_ENQUIRY_WEBHOOK_URL = ''; // paste a Make webhook URL here to record every enquiry
+function initEnquiryOptIn() {
+  const form = document.getElementById('contact-form');
+  if (!form || form.querySelector('[name="marketing_consent"]')) return;
+  const anchor = document.getElementById('contact-form-feedback') || document.getElementById('contact-form-submit');
+  if (!anchor) return;
+  const wrap = document.createElement('label');
+  wrap.setAttribute('for', 'marketing-consent');
+  wrap.style.cssText = 'display:flex;gap:10px;align-items:flex-start;margin:0 0 12px;padding:12px 14px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;cursor:pointer;';
+  wrap.innerHTML = '<input type="checkbox" id="marketing-consent" name="marketing_consent" value="yes" style="width:18px;height:18px;margin-top:1px;flex-shrink:0;accent-color:#0a94b2;cursor:pointer;"/>'
+    + '<span style="font:400 13px/1.5 \'Manrope\',sans-serif;color:#374151;">Email me SAPC\'s newsletter with Ofsted updates and practical guidance for supported accommodation providers <span style="color:#9ca3af;">(optional, unsubscribe any time)</span></span>';
+  anchor.parentNode.insertBefore(wrap, anchor);
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initEnquiryOptIn);
+} else {
+  initEnquiryOptIn();
+}
+
+// ==============================
 // SAPC TRACKING (GA4 G-QY5KMSMW9H via gtag + Meta Pixel when present)
 // - whatsapp_click / phone_click / email_click on any tel:, wa.me and mailto: link
 // - generate_lead (+ Meta "Lead") only on the thank-you page AND only after a real
@@ -1455,8 +1483,33 @@ function initPathwayLotties(attempt = 0) {
       ? 'readiness_call' : 'contact_form';
     const wa = document.getElementById('wa-handoff');
     const pending = { form_type: formType, service: field('serviceRequired') || field('stage') || '', whatsapp_handoff: !!(wa && wa.checked), page_path: location.pathname, ts: Date.now() };
+    const optIn = !!form.querySelector('[name="marketing_consent"]:checked');
+    pending.marketing_opt_in = optIn;
     try { sessionStorage.setItem(LEAD_KEY, JSON.stringify(pending)); } catch (err) { /* ignore */ }
-    send('enquiry_form_submit', { form_type: formType });
+    send('enquiry_form_submit', { form_type: formType, marketing_opt_in: optIn });
+
+    // Hand the contact details to Make. sendBeacon survives the page navigating away.
+    const fullName = field('name');
+    const nameParts = fullName.split(/\s+/);
+    const beacon = (url, extra) => {
+      if (!url || !navigator.sendBeacon) return;
+      const body = new FormData();
+      body.append('email', field('email'));
+      body.append('first_name', nameParts[0] || '');
+      body.append('last_name', nameParts.slice(1).join(' '));
+      body.append('full_name', fullName);
+      body.append('organisation', field('organisation'));
+      body.append('phone', field('phone'));
+      body.append('service', pending.service);
+      body.append('role', '');
+      body.append('page', location.href);
+      body.append('submitted_at', new Date().toISOString());
+      Object.keys(extra).forEach((k) => body.append(k, extra[k]));
+      try { navigator.sendBeacon(url, body); } catch (err) { /* the Web3Forms email still goes out */ }
+    };
+    if (optIn) beacon(SAPC_NEWSLETTER_WEBHOOK_URL, { consent: 'yes', source: formType + '_optin' });
+    if (SAPC_ENQUIRY_WEBHOOK_URL) beacon(SAPC_ENQUIRY_WEBHOOK_URL, { marketing_consent: optIn ? 'yes' : 'no', source: formType, type: 'enquiry' });
+    if (optIn) send('sign_up', { method: formType + '_optin' });
   }, true);
 
   // Thank-you page: count the lead once
@@ -1465,7 +1518,7 @@ function initPathwayLotties(attempt = 0) {
     try { pending = JSON.parse(sessionStorage.getItem(LEAD_KEY) || 'null'); sessionStorage.removeItem(LEAD_KEY); } catch (err) { pending = null; }
     if (pending && Date.now() - (pending.ts || 0) < 60 * 60 * 1000) {
       const fire = () => {
-        send('generate_lead', { form_type: pending.form_type, service: pending.service, whatsapp_handoff: pending.whatsapp_handoff, source_page: pending.page_path });
+        send('generate_lead', { form_type: pending.form_type, service: pending.service, whatsapp_handoff: pending.whatsapp_handoff, marketing_opt_in: !!pending.marketing_opt_in, source_page: pending.page_path });
         meta('Lead', { content_name: pending.form_type });
       };
       // fbq/gtag stubs exist from the page head, so firing now queues correctly
