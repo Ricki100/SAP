@@ -1414,7 +1414,7 @@ function initPathwayLotties(attempt = 0) {
 // - If SAPC_ENQUIRY_WEBHOOK_URL is set, EVERY enquiry is also sent there
 //   (with marketing_consent yes/no), e.g. a dedicated Make "SAPC enquiries" scenario.
 // ==============================
-const SAPC_NEWSLETTER_WEBHOOK_URL = 'https://hook.eu1.make.com/zo5d8tdps58d29y91ddsrh3odcvtqgyp';
+const SAPC_NEWSLETTER_WEBHOOK_URL = 'https://hook.eu1.make.com/ng8s5eqrphw1cxrlbnq5detf3obydcbp';
 const SAPC_ENQUIRY_WEBHOOK_URL = ''; // paste a Make webhook URL here to record every enquiry
 function initEnquiryOptIn() {
   const form = document.getElementById('contact-form');
@@ -1560,7 +1560,7 @@ function initNewsletterPopup() {
   if (subscribed) return;
   if (dismissed && (Date.now() - parseInt(dismissed)) < 24 * 60 * 60 * 1000) return;
 
-  const MAKE_NEWSLETTER_WEBHOOK_URL = 'https://hook.eu1.make.com/zo5d8tdps58d29y91ddsrh3odcvtqgyp';
+  const MAKE_NEWSLETTER_WEBHOOK_URL = 'https://hook.eu1.make.com/ng8s5eqrphw1cxrlbnq5detf3obydcbp';
   const style = document.createElement('style');
   style.textContent = `
     #sapc-nl-overlay {
