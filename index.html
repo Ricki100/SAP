@@ -317,6 +317,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- LATEST INSIGHTS -->
 <style>
   #latest-insights .carousel-set { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  /* The CMS script renders a real set plus a duplicate (for a looping carousel). Show the real set full width and hide the duplicate. */
+  #latest-insights [data-cms-blog-grid]:has(> .carousel-set) { display: block !important; }
+  #latest-insights [data-cms-blog-grid] > .carousel-set[aria-hidden="true"] { display: none !important; }
   #latest-insights .blog-card { display: block; background: #fff; border: 1px solid #e4eef0; border-radius: 12px; overflow: hidden; text-decoration: none; box-shadow: 0 6px 20px rgba(10,77,98,0.06); }
   #latest-insights .blog-card-img, #latest-insights .blog-card-img-ph { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #e8f1f3; }
   #latest-insights .blog-card-body { padding: 22px 22px 25px; }
